@@ -30,15 +30,20 @@ if (-not (Test-Path "$env:ProgramFiles\Git\bin\bash.exe")) {
     throw "[missing] Git Bash - install with: winget install Git.Git   (Game Studios hooks need bash)"
 }
 
-# 1. Claude Code Game Studios -> D:\TRPG
-if ((Test-Path $Target) -and (Get-ChildItem $Target -Force | Select-Object -First 1)) {
+# 1. Claude Code Game Studios -> D:\TRPG (skipped on a re-run)
+if (Test-Path "$Target\project.yaml") {
+    Write-Host "$Target already has Game Studios, skipping clone."
+} elseif ((Test-Path $Target) -and (Get-ChildItem $Target -Force | Select-Object -First 1)) {
     throw "$Target already exists and is not empty. Delete it and run again."
+} else {
+    Run git clone https://github.com/Donchitos/Claude-Code-Game-Studios.git $Target
 }
-Run git clone https://github.com/Donchitos/Claude-Code-Game-Studios.git $Target
 Set-Location $Target
 
 # Draft TRPG game brief; /brainstorm refines it instead of starting over.
-Invoke-WebRequest "$Raw/trpg/design/game-brief.md" -OutFile "design\game-brief.md" -UseBasicParsing
+if (-not (Test-Path "design\game-brief.md")) {
+    Invoke-WebRequest "$Raw/trpg/design/game-brief.md" -OutFile "design\game-brief.md" -UseBasicParsing
+}
 
 # 2. OmniRoute (AI gateway, http://localhost:20128)
 # npm.cmd, not npm: the default execution policy blocks npm.ps1.
@@ -51,7 +56,8 @@ if (-not (Get-Command uv -ErrorAction SilentlyContinue)) {
 $env:Path = [Environment]::GetEnvironmentVariable("Path", "User") + ";" +
             [Environment]::GetEnvironmentVariable("Path", "Machine") + ";" +
             "$env:USERPROFILE\.local\bin;" + $env:Path
-Run uv tool install graphifyy
+# --force: replace a graphify.exe left over from an earlier install.
+Run uv tool install --force graphifyy
 Run uv tool update-shell
 Run graphify claude install --project
 
