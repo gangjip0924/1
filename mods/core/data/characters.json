@@ -1,0 +1,20 @@
+{
+  "type": "characters",
+  "comment": "장면에 함께 그려지는 등장인물. 가상 인물(fictional: true)이고 20세 이상인 인물만 허용된다.",
+  "items": [
+    {
+      "id": "c_fortune_teller",
+      "name": "떠돌이 점술가",
+      "age": 64,
+      "fictional": true,
+      "prompt": "old wandering fortune teller with a deep hooded cloak, silver rings, kind wrinkled face"
+    },
+    {
+      "id": "c_old_dragon",
+      "name": "북쪽 산맥의 늙은 용",
+      "age": 900,
+      "fictional": true,
+      "prompt": "ancient enormous dragon with copper scales, sleeping"
+    }
+  ]
+}

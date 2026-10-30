@@ -1,0 +1,331 @@
+{
+  "type": "events",
+  "comment": "20세 이후 공통 사건. 종족·신분·출생지·특성·어린 시절 플래그에 반응한다.",
+  "items": [
+    {
+      "id": "x_tax", "title": "세금 징수관", "ages": [20, 62],
+      "text": [
+        { "text": "영주의 세금 징수관이 장부를 들고 문을 두드린다. 올해 세금은 유난히 무겁다." },
+        { "if": { "status": "noble" }, "text": " 귀족 면세 특권을 들먹일 수도 있다." }
+      ],
+      "choices": [
+        { "text": "순순히 낸다", "hint": "재산의 10%", "outcome": { "text": "아깝지만 깔끔하다.", "effects": [{ "goldPct": -10 }] } },
+        {
+          "text": "장부의 허점을 찾는다",
+          "check": { "dice": "d20", "stat": "int", "dc": 13 },
+          "outcomes": {
+            "success": { "text": "징수관의 계산이 틀렸다. 오히려 지난해 더 낸 세금을 돌려받았다.", "effects": [{ "gold": 20 }] },
+            "fail": { "text": "괘씸죄가 붙어 두 배를 냈다.", "effects": [{ "goldPct": -20 }] }
+          }
+        },
+        {
+          "text": "면세 특권을 주장한다", "conditions": { "status": "noble" },
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 9, "tags": ["social"] },
+          "outcomes": {
+            "success": { "text": "징수관이 모자를 벗고 물러났다.", "effects": [] },
+            "partial": { "text": "절반만 냈다.", "effects": [{ "goldPct": -5 }] },
+            "fail": { "text": "특권은 작년에 폐지되었다고 한다. 망신까지 샀다.", "effects": [{ "goldPct": -15 }, { "rep": -1 }] }
+          }
+        }
+      ]
+    },
+    {
+      "id": "x_casino", "title": "황금 주사위 도박장", "ages": [20, 68],
+      "weightMods": [{ "if": { "trait": "lucky" }, "mul": 2 }, { "if": { "trait": "spendthrift" }, "mul": 2 }],
+      "text": [
+        { "text": "왕도의 황금 주사위 도박장에서 초대장이 왔다. 하룻밤에 재산이 두 배가 되기도, 사라지기도 하는 곳." },
+        { "if": { "flag": "gambler_legend" }, "text": " 뒷골목의 '꼬마 운명'을 기억하는 딜러가 있다." }
+      ],
+      "choices": [
+        {
+          "text": "재산의 절반을 건다", "hint": "성공하면 재산 +50%, 실패하면 −50%",
+          "check": { "dice": "d100", "stat": "dex", "dc": 40, "tags": ["gamble"] },
+          "outcomes": {
+            "crit_success": { "text": "판이 끝났을 때 도박장 주인이 직접 술을 따랐다.", "effects": [{ "goldPct": 150 }] },
+            "success": { "text": "주사위가 당신을 사랑했다.", "effects": [{ "goldPct": 50 }] },
+            "fail": { "text": "주사위는 당신을 외면했다.", "effects": [{ "goldPct": -50 }] },
+            "crit_fail": { "text": "절반을 잃고, 되찾으려다 나머지까지 잃었다.", "effects": [{ "goldPct": -80 }, { "flag": "gambling_ruin", "set": true }, { "scene": "s_ruin" }] }
+          }
+        },
+        {
+          "text": "가볍게 즐긴다",
+          "check": { "dice": "d100", "stat": "dex", "dc": 45, "tags": ["gamble"] },
+          "outcomes": {
+            "success": { "text": "용돈을 벌었다.", "effects": [{ "gold": 50 }] },
+            "fail": { "text": "술값만 날렸다.", "effects": [{ "gold": -30 }] }
+          }
+        },
+        {
+          "text": "딜러의 주사위를 살핀다", "conditions": { "flag": "knows_loaded_dice" },
+          "outcome": { "text": "무게추를 넣은 주사위. 어릴 적 뒷골목에서 본 그 수법이다. 당신이 눈짓하자 딜러는 조용히 당신 몫을 챙겨 주었다.", "effects": [{ "gold": 200 }] }
+        },
+        { "text": "가지 않는다", "outcome": { "text": "초대장은 난로 속으로 들어갔다.", "effects": [] } }
+      ]
+    },
+    {
+      "id": "x_rival_return", "title": "옛 원수", "ages": [25, 52], "conditions": { "all": [{ "flag": "rival" }, { "not": { "career": "merchant" } }] },
+      "text": [
+        { "text": "술집에서 누군가 당신의 이름을 부른다. 카렌이다. 세월이 흘렀지만 그 눈빛은 골목에서 통행료를 걷던 그대로다." },
+        { "if": { "flag": "humiliated" }, "text": " 카렌은 아직도 웅덩이 이야기를 하며 웃는다." }
+      ],
+      "choices": [
+        {
+          "text": "결투를 신청한다",
+          "check": { "dice": "d20", "stat": "str", "dc": 13, "tags": ["danger"] },
+          "outcomes": {
+            "success": { "text": "이번엔 당신이 이겼다. 카렌은 고개를 숙이고 술값을 냈다.", "effects": [{ "rep": 2 }, { "gold": 30 }, { "flag": "rival", "clear": true }, { "flag": "rival_beaten", "set": true }] },
+            "fail": { "text": "또 졌다. 운명은 되풀이되는가.", "effects": [{ "health": -1 }, { "rep": -1 }] }
+          }
+        },
+        {
+          "text": "화해의 잔을 든다",
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 10, "tags": ["social"] },
+          "outcomes": {
+            "success": { "text": "어린 날의 다툼을 웃으며 이야기했다. 카렌은 좋은 정보원이 되었다.", "effects": [{ "gold": 50 }, { "flag": "rival", "clear": true }, { "flag": "karen_ally", "set": true }] },
+            "partial": { "text": "앙금은 남았지만 칼은 거뒀다.", "effects": [{ "flag": "rival", "clear": true }] },
+            "fail": { "text": "카렌은 잔을 엎고 나갔다.", "effects": [{ "rep": -1 }] }
+          }
+        }
+      ]
+    },
+    {
+      "id": "x_marriage", "title": "혼담", "ages": [24, 42],
+      "text": [
+        { "text": "중매쟁이가 혼담을 들고 왔다. 상대는 {birthplace}의 이름난 집안이다. 지참금과 인맥이 따라온다." },
+        { "if": { "flag": "sweetheart" }, "text": " 문득 등불 축제의 밤에 함께 춤추던 얼굴이 떠오른다." }
+      ],
+      "choices": [
+        {
+          "text": "혼담을 받아들인다",
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 9, "tags": ["social"] },
+          "outcomes": {
+            "success": { "text": "성대한 혼례. 두 집안의 인맥이 당신의 것이 되었다.", "effects": [{ "gold": 150 }, { "rep": 2 }, { "flag": "married", "set": true }] },
+            "partial": { "text": "혼례는 치렀지만 처가의 간섭이 심하다.", "effects": [{ "gold": 80 }, { "flag": "married", "set": true }] },
+            "fail": { "text": "상견례에서 실수를 연발했다. 혼담은 깨졌다.", "effects": [{ "rep": -1 }] }
+          }
+        },
+        {
+          "text": "등불 축제의 그 사람을 찾아간다", "conditions": { "flag": "sweetheart" },
+          "outcome": { "text": "그 사람은 아직 기다리고 있었다. 지참금은 없었지만 집에 웃음이 생겼다.", "effects": [{ "health": 2 }, { "flag": "married", "set": true }, { "flag": "love_match", "set": true }] }
+        },
+        { "text": "혼자 사는 길을 택한다", "outcome": { "text": "자유는 비싸지 않다.", "effects": [] } }
+      ]
+    },
+    {
+      "id": "x_plague", "title": "역병의 해", "ages": [25, 66],
+      "weightMods": [{ "if": { "trait": "sickly" }, "mul": 2 }, { "if": { "trait": "iron_body" }, "mul": 0.5 }],
+      "text": "역병이 왕국을 휩쓴다. 거리마다 검은 깃발이 걸렸다.",
+      "choices": [
+        {
+          "text": "도시를 떠나 피신한다",
+          "check": { "dice": "d20", "stat": "dex", "dc": 11 },
+          "outcomes": {
+            "success": { "text": "시골로 피했다. 한 해를 잃었지만 살았다.", "effects": [{ "gold": -40 }, { "years": 1 }] },
+            "fail": { "text": "피난길에서 병을 얻었다.", "effects": [{ "health": -2 }] }
+          }
+        },
+        {
+          "text": "남아서 버틴다",
+          "check": { "dice": "d20", "stat": "str", "dc": 13, "tags": ["disease"] },
+          "outcomes": {
+            "success": { "text": "역병은 당신을 비켜 갔다. 텅 빈 시장에서 물건을 팔아 큰돈을 벌었다.", "effects": [{ "gold": 120 }] },
+            "fail": { "text": "병에 걸렸다. 겨우 살아났다.", "effects": [{ "health": -3 }] },
+            "crit_fail": { "text": "검은 반점이 온몸에 번졌다. 의원은 이미 고개를 저었다.", "effects": [{ "health": -5 }] }
+          }
+        },
+        {
+          "text": "치유 마법을 판다", "conditions": { "career": "mage" },
+          "check": { "dice": "d20", "stat": "mag", "dc": 12, "tags": ["magic"] },
+          "outcomes": {
+            "success": { "text": "당신의 마법이 수백 명을 살렸다. 감사의 금화가 쏟아졌다.", "effects": [{ "gold": 300 }, { "rep": 2 }] },
+            "fail": { "text": "환자를 돌보다 당신도 쓰러졌다.", "effects": [{ "health": -2 }] }
+          }
+        }
+      ]
+    },
+    {
+      "id": "x_noble_house", "title": "가문의 부름", "ages": [25, 50], "conditions": { "status": "noble" },
+      "text": "본가에서 전갈이 왔다. 아버지가 위독하시다. 형제들이 상속을 두고 칼을 갈고 있다.",
+      "choices": [
+        {
+          "text": "상속 다툼에 뛰어든다",
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 11, "tags": ["social"] },
+          "outcomes": {
+            "success": { "text": "형제들을 설득해 가문 금고의 열쇠를 손에 넣었다. 왕궁에도 인사를 다녀왔다.", "effects": [{ "gold": 400 }, { "rep": 1 }, { "scene": "s_royal_court" }] },
+            "partial": { "text": "공평하게 나눴다. 누구도 만족하지 않았다.", "effects": [{ "gold": 150 }] },
+            "fail": { "text": "형제들이 손을 잡고 당신을 밀어냈다.", "effects": [{ "rep": -1 }] }
+          }
+        },
+        {
+          "text": "법정에서 다툰다",
+          "check": { "dice": "d20", "stat": "int", "dc": 14 },
+          "outcomes": {
+            "success": { "text": "유언장의 서명이 당신 편이었다.", "effects": [{ "gold": 350 }] },
+            "fail": { "text": "변호사 비용만 날렸다.", "effects": [{ "gold": -100 }] }
+          }
+        },
+        { "text": "상속을 포기한다", "outcome": { "text": "형제들은 놀랐고, 당신의 평판은 올랐다.", "effects": [{ "rep": 3 }] } }
+      ]
+    },
+    {
+      "id": "x_luxury", "title": "사치의 유혹", "ages": [20, 56], "weight": 6,
+      "weightMods": [{ "if": { "trait": "spendthrift" }, "mul": 4 }],
+      "text": "왕도에서 온 행상이 눈부신 물건을 펼친다. 엘프 비단 망토, 드워프 금세공 반지, 별빛 향수.",
+      "choices": [
+        { "text": "다 산다", "hint": "재산의 25%", "outcome": { "text": "사람들의 시선이 달라졌다. 지갑도 달라졌다.", "effects": [{ "goldPct": -25 }, { "rep": 1 }] } },
+        { "text": "반지 하나만 산다 (30G)", "outcome": { "text": "반지 하나가 손가락에서 빛난다.", "effects": [{ "gold": -30 }, { "rep": 1 }] } },
+        {
+          "text": "꾹 참는다",
+          "check": { "dice": "d20", "stat": "int", "dc": 10 },
+          "outcomes": {
+            "success": { "text": "참았다. 스스로가 대견하다.", "effects": [] },
+            "fail": { "text": "참으려 했지만 다음 날 다시 찾아가 샀다.", "effects": [{ "gold": -40 }] }
+          }
+        },
+        {
+          "text": "외상으로 산다", "conditions": { "trait": "spendthrift" },
+          "outcome": { "text": "외상 장부에 이름이 올랐다. 낭비벽은 쉽게 고쳐지지 않는다.", "effects": [{ "gold": -80 }, { "rep": 1 }] }
+        }
+      ]
+    },
+    {
+      "id": "x_war", "title": "국경의 징집", "ages": [25, 50],
+      "weightMods": [{ "if": { "birthplace": "frontier" }, "mul": 2 }],
+      "text": [
+        { "text": "국경에서 전쟁이 터졌다. 징집관이 문 앞에 서 있다." },
+        { "if": { "birthplace": "frontier" }, "text": " 하젠 출신이라면 피할 수 없다는 걸 안다." }
+      ],
+      "choices": [
+        {
+          "text": "전장에 나간다",
+          "check": { "dice": "d20", "stat": "str", "dc": 14, "tags": ["danger"] },
+          "outcomes": {
+            "crit_success": { "text": "적장의 깃발을 꺾었다. 왕이 직접 훈장을 달아 주었다.", "effects": [{ "gold": 300 }, { "rep": 4 }, { "flag": "war_hero", "set": true }, { "scene": "s_war" }] },
+            "success": { "text": "공을 세웠다. 전리품과 훈장을 받았다.", "effects": [{ "gold": 200 }, { "rep": 3 }, { "scene": "s_war" }] },
+            "fail": { "text": "부상을 입고 후송되었다.", "effects": [{ "health": -2 }, { "scene": "s_war" }] },
+            "crit_fail": { "text": "화살 비가 쏟아졌다.", "effects": [{ "scene": "s_war" }, { "death": "국경의 전장에서 이름 없이 쓰러졌다" }] }
+          }
+        },
+        {
+          "text": "면제금을 낸다 (100G)", "showLocked": true, "hint": "금화 100G 이상 필요",
+          "conditions": { "cmp": ["gold", ">=", 100] },
+          "outcome": { "text": "돈으로 전쟁을 피했다. 이웃의 시선이 따갑다.", "effects": [{ "gold": -100 }, { "rep": -1 }] }
+        },
+        {
+          "text": "군수품을 판다", "conditions": { "career": "merchant" },
+          "check": { "dice": "d20", "stat": "int", "dc": 12, "tags": ["trade"] },
+          "outcomes": {
+            "success": { "text": "전쟁은 누군가에겐 대목이다.", "effects": [{ "gold": 300 }, { "scene": "s_war" }] },
+            "fail": { "text": "군대가 대금을 떼먹었다.", "effects": [{ "gold": -100 }] }
+          }
+        }
+      ]
+    },
+    {
+      "id": "x_elf_envoy", "title": "별빛 사절", "ages": [25, 60], "conditions": { "race": "elf" },
+      "text": [
+        { "text": "엘프 왕궁에서 사절이 왔다. 인간 왕국과의 협상에 엘프 혈통의 중재자가 필요하다고 한다." },
+        { "if": { "trait": "starborn" }, "text": " 사절은 당신의 별빛 혈통을 알아보고 고개를 숙인다." }
+      ],
+      "choices": [
+        {
+          "text": "중재를 맡는다",
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 10, "tags": ["social"] },
+          "outcomes": {
+            "success": { "text": "협상은 타결되었다. 두 왕궁이 당신에게 사례했다.", "effects": [{ "gold": 250 }, { "rep": 2 }, { "scene": "s_royal_court" }] },
+            "partial": { "text": "협상은 반쯤 진척되었다.", "effects": [{ "gold": 80 }] },
+            "fail": { "text": "협상이 깨졌다. 양쪽 모두 당신을 탓했다.", "effects": [{ "rep": -2 }] }
+          }
+        },
+        {
+          "text": "별의 언어로 협상한다", "conditions": { "trait": "starborn" },
+          "outcome": { "text": "별의 언어 앞에서는 거짓말을 할 수 없다. 협상은 하루 만에 끝났다.", "effects": [{ "gold": 350 }, { "rep": 3 }, { "scene": "s_royal_court" }] }
+        },
+        { "text": "거절한다", "outcome": { "text": "정치는 단명하는 종족에게 맡기자.", "effects": [] } }
+      ]
+    },
+    {
+      "id": "x_dwarf_contract", "title": "산맥 홀의 계약", "ages": [25, 60], "conditions": { "race": "dwarf" },
+      "text": [
+        { "text": "산맥 홀의 장로들이 큰 계약을 맡길 드워프를 찾는다. 인간 왕궁의 정문을 새로 짓는 일이다." },
+        { "if": { "trait": "forgehand" }, "text": " 장로들은 당신의 손을 보더니 서로 눈짓을 주고받는다." }
+      ],
+      "choices": [
+        {
+          "text": "직접 망치를 든다",
+          "check": { "dice": "d20", "stat": "dex", "dc": 14, "tags": ["craft"] },
+          "outcomes": {
+            "success": { "text": "정문이 완성되었다. 왕이 문을 열며 감탄했다.", "effects": [{ "gold": 300 }, { "rep": 2 }] },
+            "fail": { "text": "정문은 완성됐지만 열 때마다 삐걱거린다.", "effects": [{ "gold": -50 }] }
+          }
+        },
+        {
+          "text": "인부들을 지휘한다",
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 10, "tags": ["social"] },
+          "outcomes": {
+            "success": { "text": "기한보다 일찍 끝냈다.", "effects": [{ "gold": 200 }] },
+            "partial": { "text": "기한은 넘겼지만 완성은 했다.", "effects": [{ "gold": 80 }] },
+            "fail": { "text": "인부들이 파업했다.", "effects": [{ "gold": -30 }] }
+          }
+        },
+        {
+          "text": "대장장이 손으로 문을 벼린다", "conditions": { "trait": "forgehand" },
+          "check": { "dice": "d20", "stat": "dex", "dc": 10, "tags": ["craft"] },
+          "outcomes": {
+            "success": { "text": "백 년을 버틸 문이다. 산맥 홀이 당신의 이름을 바위에 새겼다.", "effects": [{ "gold": 500 }, { "rep": 3 }] },
+            "fail": { "text": "그래도 훌륭한 문이다.", "effects": [{ "gold": 150 }] }
+          }
+        }
+      ]
+    },
+    {
+      "id": "x_human_ambition", "title": "왕도의 관직", "ages": [25, 56], "conditions": { "race": "human" },
+      "text": [
+        { "text": "왕도에서 새 관직의 공개 선발이 열린다. 인간 왕국에서는 출신보다 수완이 먼저다." },
+        { "if": { "trait": "ambitious" }, "text": " 가슴이 뛴다. 이것이 당신이 기다리던 기회다." },
+        { "if": { "flag": "lord_contact" }, "text": " 수확제의 그 영주 아들이 지금은 선발관이라는 소문이다." }
+      ],
+      "choices": [
+        {
+          "text": "선발 시험에 응시한다",
+          "check": { "dice": "d20", "stat": "int", "dc": 14, "tags": ["career"] },
+          "outcomes": {
+            "success": { "text": "합격했다. 녹봉이 매년 나온다.", "effects": [{ "gold": 250 }, { "rep": 2 }, { "flag": "official", "set": true }] },
+            "fail": { "text": "낙방했다.", "effects": [{ "rep": -1 }] }
+          }
+        },
+        {
+          "text": "옛 인연을 찾아간다", "conditions": { "flag": "lord_contact" },
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 9, "tags": ["social"] },
+          "outcomes": {
+            "success": { "text": "영주 아들은 수확제의 꼬마를 반갑게 맞았다.", "effects": [{ "gold": 300 }, { "rep": 2 }, { "flag": "official", "set": true }] },
+            "fail": { "text": "영주 아들은 건방진 꼬마를 똑똑히 기억하고 있었다.", "effects": [{ "rep": -2 }] }
+          }
+        },
+        { "text": "관심 없다", "outcome": { "text": "관복은 몸에 맞지 않는다.", "effects": [] } }
+      ]
+    },
+    {
+      "id": "x_old_bond", "title": "오랜 인연", "ages": [22, 55],
+      "conditions": { "any": [{ "flag": "childhood_friend" }, { "flag": "karen_ally" }, { "flag": "merchant_friend" }, { "flag": "pirate_friend" }, { "flag": "goblin_friend" }] },
+      "text": [
+        { "text": "어려운 시기에 오래된 인연이 찾아왔다." },
+        { "if": { "any": [{ "flag": "childhood_friend" }, { "flag": "karen_ally" }] }, "text": " 골목에서 만난 카렌이다." },
+        { "if": { "flag": "merchant_friend" }, "text": " 어릴 적 시장에서 당신을 집에 데려다준 그 상인이 보낸 편지다." },
+        { "if": { "flag": "pirate_friend" }, "text": " 럼주를 나눴던 해적 선장이 보낸 앵무새다." },
+        { "if": { "flag": "goblin_friend" }, "text": " 우물을 옮겨 준 고블린들이 보낸 반짝이는 돌멩이 꾸러미다." }
+      ],
+      "choices": [
+        { "text": "도움을 받는다", "outcome": { "text": "인연은 돌고 돈다.", "effects": [{ "gold": 100 }] } },
+        {
+          "text": "함께 사업을 벌인다",
+          "check": { "dice": "d100", "stat": "cha", "dc": 40, "tags": ["gamble", "trade"] },
+          "outcomes": {
+            "success": { "text": "오랜 인연은 최고의 동업자였다.", "effects": [{ "gold": 250 }] },
+            "fail": { "text": "우정은 남았고 돈은 날아갔다.", "effects": [{ "gold": -60 }] }
+          }
+        }
+      ]
+    }
+  ]
+}

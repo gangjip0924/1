@@ -1,0 +1,36 @@
+{
+  "type": "birthplaces",
+  "items": [
+    {
+      "id": "port",
+      "name": "항구도시 벨마르",
+      "desc": "돛과 향신료의 도시. 재주 +1, 상인 수입 +15%.",
+      "modifiers": [
+        { "type": "stat", "stat": "dex", "value": 1 },
+        { "type": "income", "career": "merchant", "value": 15 }
+      ],
+      "tags": ["port"]
+    },
+    {
+      "id": "frontier",
+      "name": "국경 마을 하젠",
+      "desc": "늑대와 성벽의 마을. 힘 +1, 건강 +1, 모험가 수입 +15%.",
+      "modifiers": [
+        { "type": "stat", "stat": "str", "value": 1 },
+        { "type": "health", "value": 1 },
+        { "type": "income", "career": "adventurer", "value": 15 }
+      ],
+      "tags": ["frontier"]
+    },
+    {
+      "id": "tower",
+      "name": "마탑도시 아스테라",
+      "desc": "마도사들의 첨탑 도시. 지혜 +1, 마도사 수입 +15%.",
+      "modifiers": [
+        { "type": "stat", "stat": "int", "value": 1 },
+        { "type": "income", "career": "mage", "value": 15 }
+      ],
+      "tags": ["tower"]
+    }
+  ]
+}

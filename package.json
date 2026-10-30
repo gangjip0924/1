@@ -1,0 +1,16 @@
+{
+  "name": "taesaeng-blueprint",
+  "version": "0.1.0",
+  "description": "태생 설계도 — 마음대로 살아낸 생 (가제). 1인용 판타지 인생 시뮬레이션 주사위 로그라이트.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test \"tests/*.test.js\"",
+    "validate": "node tools/validate-mods.js",
+    "simulate": "node tools/simulate.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

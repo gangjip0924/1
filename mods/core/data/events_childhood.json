@@ -1,0 +1,502 @@
+{
+  "type": "events",
+  "comment": "1~19세 튜토리얼 구간. 주사위 3종과 선택을 익힌다. 출생 변수와 특성에 반응한다.",
+  "items": [
+    {
+      "id": "e_cradle", "title": "요람 곁의 점술가", "ages": [1, 1], "priority": 50, "tags": ["tutorial"],
+      "text": [
+        { "text": "{birthplace}의 어느 밤, 떠돌이 점술가가 당신의 요람을 들여다본다. " },
+        { "if": { "status": "noble" }, "text": "가문의 집사가 은화를 쥐여 주자 점술가는 " },
+        { "if": { "status": "commoner" }, "text": "어머니가 마지막 빵 한 덩이를 내밀자 점술가는 " },
+        { "text": "품에서 백면체 주사위를 꺼낸다. \"이 아이의 운을 한번 보지.\"" }
+      ],
+      "choices": [
+        {
+          "text": "점술가가 주사위를 굴리게 둔다",
+          "hint": "첫 판정: 운명의 백면체는 목표치 이하로 굴려야 성공한다. 마력이 높을수록 목표치가 오른다.",
+          "check": { "dice": "d100", "stat": "mag", "dc": 40, "tags": ["fate"] },
+          "outcomes": {
+            "crit_success": { "text": "주사위가 금빛으로 멈춘다. 점술가가 무릎을 꿇는다. \"별이 이 아이를 안다.\"", "effects": [{ "flag": "blessed", "set": true }, { "stat": "mag", "add": 1 }, { "scene": "s_cradle" }] },
+            "success": { "text": "좋은 숫자다. 점술가는 웃으며 당신 이마에 축복의 표식을 그려 준다.", "effects": [{ "flag": "blessed", "set": true }, { "scene": "s_cradle" }] },
+            "fail": { "text": "점술가는 숫자를 보고 잠시 말을 잃더니, 아무 말 없이 떠난다. 그날 밤 지붕 위에서 까마귀가 울었다.", "effects": [{ "flag": "ill_omen", "set": true }, { "scene": "s_cradle" }] },
+            "crit_fail": { "text": "주사위가 요람 밖으로 굴러떨어져 두 쪽이 났다. 점술가는 얼굴이 하얗게 질려 달아났고, 이웃들이 수군대기 시작했다.", "effects": [{ "flag": "ill_omen", "set": true }, { "rep": -1 }, { "scene": "s_cradle" }] }
+          }
+        },
+        {
+          "text": "점술가를 돌려보낸다",
+          "outcome": { "text": "부모는 점술가를 문밖으로 돌려보냈다. 운명은 아직 아무 말도 하지 않았다.", "effects": [] }
+        }
+      ]
+    },
+    {
+      "id": "e_first_steps", "title": "첫걸음", "ages": [2, 3], "priority": 40, "tags": ["tutorial"],
+      "text": [
+        { "text": "당신은 식탁 다리를 붙잡고 일어선다. 방 건너편에서 누군가 두 팔을 벌리고 있다." },
+        { "if": { "race": "dwarf" }, "text": " 드워프 아이답게 다리는 짧지만 단단하다." },
+        { "if": { "race": "elf" }, "text": " 엘프 아이의 발걸음은 바닥에 닿는 소리조차 없다." }
+      ],
+      "choices": [
+        {
+          "text": "힘껏 걸어간다",
+          "hint": "운명의 이십면체: d20 + 재주가 난이도 이상이면 성공. 20이 나오면 대성공, 1이면 대실패.",
+          "check": { "dice": "d20", "stat": "dex", "dc": 8 },
+          "outcomes": {
+            "crit_success": { "text": "걷는 게 아니라 달린다! 그날로 당신은 집안의 작은 폭풍이 되었다.", "effects": [{ "stat": "dex", "add": 1 }, { "stat": "str", "add": 1 }] },
+            "success": { "text": "비틀, 비틀, 그리고 품 안으로. 온 집안이 박수를 친다.", "effects": [{ "stat": "dex", "add": 1 }] },
+            "fail": { "text": "세 걸음 만에 엉덩방아. 울음이 터졌지만, 다음 날 당신은 다시 일어섰다.", "effects": [{ "flag": "stubborn", "set": true }] },
+            "crit_fail": { "text": "식탁보를 붙잡고 넘어지며 저녁상을 통째로 엎었다. 집안에 전설이 하나 생겼다.", "effects": [{ "flag": "clumsy_legend", "set": true }, { "flag": "stubborn", "set": true }] }
+          }
+        },
+        {
+          "text": "체면 따위, 기어간다",
+          "outcome": { "text": "체면보다 실속. 당신은 기어서 목적지에 도착했고, 간식까지 받았다.", "effects": [{ "flag": "pragmatic", "set": true }] }
+        }
+      ]
+    },
+    {
+      "id": "e_port_market", "title": "향신료 시장의 미아", "ages": [3, 6], "conditions": { "birthplace": "port" },
+      "weightMods": [{ "if": { "trait": "haggler" }, "mul": 1.5 }],
+      "text": "벨마르의 향신료 시장. 사람 물결에 떠밀리다 보니 손을 잡고 있던 어른이 사라졌다. 낯선 상인이 허리를 굽힌다. \"꼬마야, 어디서 왔니?\"",
+      "choices": [
+        {
+          "text": "또박또박 집 주소를 말한다",
+          "hint": "쌍둥이 뼈주사위: 2d6 + 매력. 난이도 이상이면 성공, 3 이내로 모자라면 부분 성공.",
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 9, "tags": ["social"] },
+          "outcomes": {
+            "success": { "text": "상인은 당신을 어깨에 태워 집까지 데려다주고, 말린 무화과 한 줌을 쥐여 주었다.", "effects": [{ "flag": "merchant_friend", "set": true }, { "stat": "cha", "add": 1 }, { "scene": "s_lost_market" }] },
+            "partial": { "text": "주소는 반쯤 틀렸지만, 상인은 동네 사람들에게 물어물어 집을 찾아 주었다. 해가 지고 나서였다.", "effects": [{ "flag": "merchant_friend", "set": true }, { "scene": "s_lost_market" }] },
+            "fail": { "text": "말이 꼬여 울음이 터졌다. 경비병이 오고 나서야 집에 돌아갔고, 시장 한복판에서 운 아이로 소문이 났다.", "effects": [{ "rep": -1 }, { "scene": "s_lost_market" }] }
+          }
+        },
+        {
+          "text": "울음을 참고 상인의 좌판을 구경한다",
+          "check": { "dice": "d20", "stat": "int", "dc": 11, "tags": ["trade"] },
+          "outcomes": {
+            "success": { "text": "저울 눈금이 이상하다는 걸 꼬마인 당신이 알아챘다. 상인은 껄껄 웃으며 '너는 장사꾼이 되겠구나' 하고 동전을 쥐여 주었다.", "effects": [{ "gold": 3 }, { "flag": "trade_eye", "set": true }, { "scene": "s_lost_market" }] },
+            "fail": { "text": "구경하다 그만 잠이 들었다. 깨어 보니 집이었고, 엉덩이가 얼얼했다.", "effects": [{ "scene": "s_lost_market" }] }
+          }
+        }
+      ]
+    },
+    {
+      "id": "e_frontier_wolf", "title": "울타리 너머의 눈", "ages": [4, 7], "conditions": { "birthplace": "frontier" },
+      "text": "하젠의 겨울. 양 우리 울타리 너머에서 노란 눈 두 개가 당신을 보고 있다. 어른들은 장작을 패러 나갔다.",
+      "choices": [
+        {
+          "text": "막대기를 들고 소리친다",
+          "check": { "dice": "d20", "stat": "str", "dc": 12, "tags": ["danger"] },
+          "outcomes": {
+            "crit_success": { "text": "막대기가 늑대 코끝을 정확히 때렸다! 늑대는 깨갱 소리를 내며 달아났고, 당신은 마을의 작은 영웅이 되었다.", "effects": [{ "stat": "str", "add": 1 }, { "rep": 2 }, { "flag": "wolf_hero", "set": true }, { "scene": "s_wolf_fence" }] },
+            "success": { "text": "당신의 고함에 늑대가 꼬리를 말고 숲으로 사라졌다. 그 겨울, 마을 사람들은 당신을 '꼬마 경비병'이라 불렀다.", "effects": [{ "stat": "str", "add": 1 }, { "rep": 1 }, { "scene": "s_wolf_fence" }] },
+            "fail": { "text": "늑대가 울타리를 넘었다. 양 한 마리를 잃었고, 당신의 팔에는 이빨 자국이 남았다.", "effects": [{ "health": -1 }, { "flag": "wolf_scar", "set": true }, { "scene": "s_wolf_fence" }] },
+            "crit_fail": { "text": "막대기가 부러졌다. 어른들이 달려왔을 때 당신은 피투성이였지만, 살아 있었다.", "effects": [{ "health": -2 }, { "flag": "wolf_scar", "set": true }, { "scene": "s_wolf_fence" }] }
+          }
+        },
+        {
+          "text": "조용히 달려가 어른을 부른다",
+          "check": { "dice": "d20", "stat": "dex", "dc": 9 },
+          "outcomes": {
+            "success": { "text": "당신은 소리 없이 달렸고, 어른들은 늑대를 쫓아냈다. 영리한 판단이었다.", "effects": [{ "stat": "int", "add": 1 }] },
+            "fail": { "text": "눈밭에서 발을 헛디뎠다. 어른들이 왔을 때 늑대는 양을 물고 사라진 뒤였다.", "effects": [{ "flag": "lost_sheep", "set": true }] }
+          }
+        },
+        {
+          "text": "늑대를 노려보며 한 걸음 다가간다", "conditions": { "trait": "fearless" },
+          "outcome": { "text": "겁이라는 걸 모르는 아이의 눈빛에 늑대가 먼저 물러섰다. 그날 이후 마을의 개들도 당신을 따랐다.", "effects": [{ "stat": "str", "add": 1 }, { "rep": 1 }, { "flag": "wolf_hero", "set": true }, { "scene": "s_wolf_fence" }] }
+        },
+        {
+          "text": "이불 속으로 숨는다", "conditions": { "trait": "coward" },
+          "outcome": { "text": "늑대 울음이 멀어질 때까지 이불 속에서 떨었다. 양 두 마리를 잃었다. 하지만 살아남는 것도 재능이다.", "effects": [{ "flag": "coward_hid", "set": true }, { "stat": "int", "add": 1 }] }
+        }
+      ]
+    },
+    {
+      "id": "e_tower_sparks", "title": "첨탑 아래의 불꽃", "ages": [4, 7], "conditions": { "birthplace": "tower" },
+      "text": [
+        { "text": "아스테라의 마탑 그림자 아래서 놀다가, 손끝에서 파란 불꽃이 튀었다." },
+        { "if": { "cmp": ["aptitude", ">=", 2] }, "text": " 불꽃은 꺼지지 않고 손바닥 위에서 춤을 춘다." }
+      ],
+      "choices": [
+        {
+          "text": "불꽃을 키워 본다",
+          "check": { "dice": "d100", "stat": "mag", "dc": 30, "tags": ["magic"] },
+          "outcomes": {
+            "crit_success": { "text": "불꽃 나비 백 마리가 첨탑을 휘감았다. 마탑이 당신의 이름을 장부에 적었다.", "effects": [{ "stat": "mag", "add": 2 }, { "flag": "tower_noticed", "set": true }, { "scene": "s_tower_sparks" }] },
+            "success": { "text": "불꽃이 나비 모양으로 피어올랐다. 지나가던 마도사가 걸음을 멈추고 당신의 이름을 물었다.", "effects": [{ "stat": "mag", "add": 1 }, { "flag": "tower_noticed", "set": true }, { "scene": "s_tower_sparks" }] },
+            "fail": { "text": "불꽃이 빨랫줄로 옮겨붙었다. 이웃집 빨래가 몽땅 탔고, 부모님이 배상했다.", "effects": [{ "gold": -5 }, { "scene": "s_tower_sparks" }] },
+            "crit_fail": { "text": "불꽃이 손안에서 터졌다. 눈썹이 사라졌고, 한동안 손이 떨렸다.", "effects": [{ "health": -1 }, { "scene": "s_tower_sparks" }] }
+          }
+        },
+        {
+          "text": "무서워서 손을 털어 끈다",
+          "outcome": { "text": "불꽃은 꺼졌지만, 그날 밤 꿈속에서 다시 타올랐다.", "effects": [{ "flag": "spark_dream", "set": true }] }
+        }
+      ]
+    },
+    {
+      "id": "e_noble_tutor", "title": "가정교사의 시험", "ages": [6, 10], "conditions": { "status": "noble" },
+      "weightMods": [{ "if": { "trait": "bookworm" }, "mul": 1.5 }],
+      "text": [
+        { "text": "가문이 고용한 깐깐한 가정교사가 두꺼운 책을 내려놓는다. \"오늘은 왕국의 역사와 예법이다.\"" },
+        { "if": { "trait": "bookworm" }, "text": " 당신의 눈이 반짝인다. 책 냄새가 좋다." }
+      ],
+      "choices": [
+        {
+          "text": "역사를 통째로 외운다",
+          "check": { "dice": "d20", "stat": "int", "dc": 12, "tags": ["study"] },
+          "outcomes": {
+            "success": { "text": "가정교사가 처음으로 고개를 끄덕였다.", "effects": [{ "stat": "int", "add": 1 }, { "flag": "tutor_praise", "set": true }] },
+            "fail": { "text": "연대를 뒤섞어 말했다가 손바닥을 맞았다. 부모님의 한숨이 깊어졌다.", "effects": [{ "rep": -1 }] }
+          }
+        },
+        {
+          "text": "완벽한 예법으로 환심을 산다",
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 10, "tags": ["social"] },
+          "outcomes": {
+            "success": { "text": "흠잡을 데 없는 인사에 가정교사가 녹아내렸다. 수업은 반으로 줄었다.", "effects": [{ "stat": "cha", "add": 1 }] },
+            "partial": { "text": "인사는 괜찮았지만, 책은 펼쳐야 했다.", "effects": [] },
+            "fail": { "text": "꾸벅 인사하다 잉크병을 엎었다. 가문의 문장이 그려진 양피지 위로.", "effects": [] }
+          }
+        },
+        {
+          "text": "몰래 빠져나가 마구간에서 논다",
+          "check": { "dice": "d20", "stat": "dex", "dc": 11 },
+          "outcomes": {
+            "success": { "text": "마부에게 말 타는 법을 배웠다. 아무도 몰랐다.", "effects": [{ "stat": "str", "add": 1 }] },
+            "fail": { "text": "들켰다. 일주일 동안 방에 갇혀 책만 읽었다. 이상하게도, 머리에 남았다.", "effects": [{ "stat": "int", "add": 1 }] }
+          }
+        }
+      ]
+    },
+    {
+      "id": "e_commoner_chores", "title": "첫 품삯", "ages": [6, 10], "conditions": { "status": "commoner" },
+      "text": "부모님이 시장 심부름을 보냈다. 손에는 동전 몇 닢과 장 볼 목록이 들려 있다.",
+      "choices": [
+        {
+          "text": "값을 깎아 본다",
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 10, "tags": ["trade"] },
+          "outcomes": {
+            "success": { "text": "생선 장수가 혀를 내둘렀다. 남은 돈은 당신 몫이 되었다.", "effects": [{ "gold": 4 }, { "flag": "haggled_young", "set": true }] },
+            "partial": { "text": "조금 깎았다. 동전 하나가 남았다.", "effects": [{ "gold": 1 }] },
+            "fail": { "text": "깎으려다 생선 장수에게 혼쭐이 났다.", "effects": [] }
+          }
+        },
+        {
+          "text": "짐을 날라 주고 품삯을 받는다",
+          "check": { "dice": "d20", "stat": "str", "dc": 10 },
+          "outcomes": {
+            "success": { "text": "어깨가 빠질 듯했지만 첫 품삯을 받았다. 동전의 무게가 남달랐다.", "effects": [{ "gold": 3 }, { "stat": "str", "add": 1 }] },
+            "fail": { "text": "짐을 떨어뜨려 달걀을 깨뜨렸다. 품삯 대신 빚이 생겼다.", "effects": [{ "gold": -2 }] }
+          }
+        },
+        {
+          "text": "상인의 저울을 슬쩍 확인한다", "conditions": { "trait": "haggler" },
+          "outcome": { "text": "저울이 기울어 있었다. 당신이 조용히 말하자 상인은 입막음 값을 쥐여 주었다. 장사꾼 기질은 타고나는 법이다.", "effects": [{ "gold": 8 }, { "flag": "trade_eye", "set": true }] }
+        }
+      ]
+    },
+    {
+      "id": "e_alley_rival", "title": "골목대장", "ages": [7, 11],
+      "text": "골목 끝에서 덩치 큰 아이가 길을 막는다. 이름은 카렌. \"여긴 내 구역이야. 통행료 내.\"",
+      "choices": [
+        {
+          "text": "주먹으로 답한다",
+          "check": { "dice": "d20", "stat": "str", "dc": 12, "tags": ["danger"] },
+          "outcomes": {
+            "success": { "text": "카렌이 코피를 흘리며 물러났다. 골목은 당신 차지가 되었지만, 카렌은 이 일을 잊지 않았다.", "effects": [{ "stat": "str", "add": 1 }, { "flag": "rival", "set": true }, { "scene": "s_rival_alley" }] },
+            "fail": { "text": "흠씬 두들겨 맞았다. 카렌은 웃으며 떠났고, 당신은 언젠가 갚아 주리라 다짐했다.", "effects": [{ "health": -1 }, { "flag": "rival", "set": true }, { "scene": "s_rival_alley" }] },
+            "crit_fail": { "text": "맞고, 넘어지고, 웅덩이에 빠졌다. 온 동네 아이들이 다 봤다.", "effects": [{ "health": -1 }, { "rep": -1 }, { "flag": "rival", "set": true }, { "flag": "humiliated", "set": true }, { "scene": "s_rival_alley" }] }
+          }
+        },
+        {
+          "text": "말로 구슬린다",
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 10, "tags": ["social"] },
+          "outcomes": {
+            "success": { "text": "농담 몇 마디에 카렌이 웃음을 터뜨렸다. 적이 될 뻔한 아이가 친구가 되었다.", "effects": [{ "stat": "cha", "add": 1 }, { "flag": "childhood_friend", "set": true }, { "scene": "s_rival_alley" }] },
+            "partial": { "text": "통행료를 반으로 깎았다. 카렌과는 애매한 사이로 남았다.", "effects": [{ "gold": -1 }, { "scene": "s_rival_alley" }] },
+            "fail": { "text": "말이 통하지 않았다. 동전을 빼앗기고 카렌에게 얕보였다.", "effects": [{ "gold": -2 }, { "flag": "rival", "set": true }, { "scene": "s_rival_alley" }] }
+          }
+        },
+        {
+          "text": "돌아서서 먼 길로 다닌다", "conditions": { "trait": "coward" },
+          "outcome": { "text": "그 뒤로 매일 먼 길로 돌아다녔다. 다리만큼은 튼튼해졌다.", "effects": [{ "stat": "str", "add": 1 }] }
+        }
+      ]
+    },
+    {
+      "id": "e_elf_grove", "title": "별빛 숲의 시험", "ages": [6, 12], "conditions": { "race": "elf" },
+      "text": [
+        { "text": "엘프 아이들은 열 살 무렵 별빛 숲에서 홀로 하룻밤을 보낸다. 나무들이 속삭이고, 별이 가까이 내려온다." },
+        { "if": { "trait": "starborn" }, "text": " 별빛이 유독 당신에게만 밝게 내려앉는다." }
+      ],
+      "choices": [
+        {
+          "text": "별의 노래를 따라 부른다",
+          "check": { "dice": "d100", "stat": "mag", "dc": 30, "tags": ["magic"] },
+          "outcomes": {
+            "crit_success": { "text": "온 숲의 반딧불이가 당신 주위로 모였다. 장로들은 수백 년 만의 일이라 했다.", "effects": [{ "stat": "mag", "add": 2 }, { "rep": 1 }, { "flag": "star_mark", "set": true }] },
+            "success": { "text": "숲이 대답했다. 아침에 깨어나니 손등에 별 문양이 새겨져 있었다.", "effects": [{ "stat": "mag", "add": 1 }, { "flag": "star_mark", "set": true }] },
+            "fail": { "text": "노래는 숲에 닿지 않았다. 차가운 이슬 속에서 홀로 밤을 새웠다.", "effects": [{ "health": -1 }, { "flag": "lonely_night", "set": true }] }
+          }
+        },
+        {
+          "text": "가장 높은 나뭇가지에서 잠을 청한다",
+          "check": { "dice": "d20", "stat": "dex", "dc": 10 },
+          "outcomes": {
+            "success": { "text": "가장 높은 가지에서 별을 세다 잠들었다. 몸이 가벼워진 것 같다.", "effects": [{ "stat": "dex", "add": 1 }] },
+            "fail": { "text": "떨어졌다. 다행히 이끼가 두꺼웠다.", "effects": [{ "health": -1 }] }
+          }
+        },
+        {
+          "text": "별에게 이름을 묻는다", "conditions": { "trait": "starborn" },
+          "outcome": { "text": "별 하나가 당신의 이름을 불렀다. 별빛 혈통은 거짓말을 하지 않는다.", "effects": [{ "stat": "mag", "add": 2 }, { "flag": "star_mark", "set": true }, { "flag": "star_name", "set": true }] }
+        }
+      ]
+    },
+    {
+      "id": "e_dwarf_anvil", "title": "첫 망치", "ages": [6, 12], "conditions": { "race": "dwarf" },
+      "text": "산맥 홀의 대장간. 할아버지가 당신 손에 작은 망치를 쥐여 준다. \"드워프는 처음 만든 물건으로 평생을 기억한단다.\"",
+      "choices": [
+        {
+          "text": "단검을 벼린다",
+          "check": { "dice": "d20", "stat": "dex", "dc": 12, "tags": ["craft"] },
+          "outcomes": {
+            "crit_success": { "text": "할아버지가 단검을 빛에 비춰 보더니, 말없이 가문 진열장에 올렸다.", "effects": [{ "stat": "dex", "add": 2 }, { "rep": 1 }, { "flag": "first_blade", "set": true }] },
+            "success": { "text": "작지만 날이 선 단검. 할아버지가 당신 머리를 쓰다듬었다.", "effects": [{ "stat": "dex", "add": 1 }, { "flag": "first_blade", "set": true }] },
+            "fail": { "text": "쇳덩이는 끝내 모양을 잡지 못했다. 할아버지는 그것도 진열장에 올렸다. \"첫 실패도 기억해야지.\"", "effects": [{ "stat": "int", "add": 1 }] }
+          }
+        },
+        {
+          "text": "망치로 바위를 깨 본다",
+          "check": { "dice": "d20", "stat": "str", "dc": 11 },
+          "outcomes": {
+            "success": { "text": "바위가 쩍 갈라지며 그 속에서 작은 수정이 나왔다.", "effects": [{ "gold": 5 }, { "stat": "str", "add": 1 }] },
+            "fail": { "text": "손목을 삐었다. 바위는 멀쩡했다.", "effects": [{ "health": -1 }] }
+          }
+        },
+        {
+          "text": "쇠의 소리를 듣는다", "conditions": { "trait": "forgehand" },
+          "outcome": { "text": "쇠가 어디로 휘고 싶어 하는지 들렸다. 대장장이 손은 가르쳐서 생기는 게 아니다.", "effects": [{ "stat": "dex", "add": 2 }, { "flag": "first_blade", "set": true }, { "flag": "master_smith_path", "set": true }] }
+        }
+      ]
+    },
+    {
+      "id": "e_human_festival", "title": "수확제 경연", "ages": [6, 12], "conditions": { "race": "human" },
+      "text": [
+        { "text": "마을 수확제의 꼬마 경연. 상품은 은화 한 닢과 마을의 자랑이라는 영광이다." },
+        { "if": { "trait": "ambitious" }, "text": " 당신의 눈은 은화보다 귀빈석의 영주 아들을 향한다." }
+      ],
+      "choices": [
+        {
+          "text": "달리기 경주에 나간다",
+          "check": { "dice": "d20", "stat": "dex", "dc": 12 },
+          "outcomes": {
+            "success": { "text": "결승선을 가장 먼저 끊었다!", "effects": [{ "gold": 5 }, { "rep": 1 }] },
+            "fail": { "text": "넘어졌지만 끝까지 달렸다. 박수 소리는 1등보다 컸다.", "effects": [{ "stat": "cha", "add": 1 }] }
+          }
+        },
+        {
+          "text": "노래 경연에 나간다",
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 10, "tags": ["social"] },
+          "outcomes": {
+            "success": { "text": "맑은 목소리가 광장을 채웠다. 은화는 당신 차지.", "effects": [{ "stat": "cha", "add": 1 }, { "gold": 5 }] },
+            "partial": { "text": "음이 몇 번 나갔지만 귀엽다는 평이었다.", "effects": [{ "stat": "cha", "add": 1 }] },
+            "fail": { "text": "가사를 잊었다. 그날 이후 무대가 무섭다.", "effects": [{ "flag": "stage_fright", "set": true }] }
+          }
+        },
+        {
+          "text": "영주 아들에게 내기를 건다", "conditions": { "trait": "ambitious" },
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 9, "tags": ["social", "career"] },
+          "outcomes": {
+            "success": { "text": "당신이 이겼다. 영주 아들은 당신을 기억했다 — 언젠가 쓸모 있을 이름으로.", "effects": [{ "rep": 2 }, { "gold": 10 }, { "flag": "lord_contact", "set": true }] },
+            "fail": { "text": "졌다. 영주 아들도 당신을 기억했다 — 건방진 꼬마로.", "effects": [{ "rep": -1 }, { "flag": "lord_contact", "set": true }, { "flag": "lord_grudge", "set": true }] }
+          }
+        }
+      ]
+    },
+    {
+      "id": "e_fever", "title": "열병", "ages": [5, 14], "weight": 6,
+      "weightMods": [{ "if": { "trait": "sickly" }, "mul": 3 }, { "if": { "trait": "iron_body" }, "mul": 0.3 }],
+      "text": [
+        { "text": "마을에 열병이 돈다. 당신의 이마도 불덩이처럼 뜨겁다." },
+        { "if": { "trait": "sickly" }, "text": " 늘 그렇듯, 병은 당신을 먼저 찾아왔다." }
+      ],
+      "choices": [
+        {
+          "text": "이를 악물고 버틴다",
+          "check": { "dice": "d20", "stat": "str", "dc": 11, "tags": ["disease"] },
+          "outcomes": {
+            "crit_success": { "text": "열은 하루 만에 내렸다. 의원이 고개를 갸웃했다.", "effects": [{ "health": 1 }] },
+            "success": { "text": "사흘 밤낮을 앓고 일어났다. 몸이 조금 단단해진 것 같다.", "effects": [{ "flag": "survived_fever", "set": true }] },
+            "fail": { "text": "열은 내렸지만 기침이 오래 남았다. 그 겨울 당신은 창밖만 보며 책을 읽었다.", "effects": [{ "health": -1 }, { "stat": "int", "add": 1 }, { "scene": "s_fever" }] },
+            "crit_fail": { "text": "죽음의 문턱까지 갔다 돌아왔다. 몸은 예전 같지 않지만, 머리맡의 책들은 다 읽었다.", "effects": [{ "health": -2 }, { "stat": "int", "add": 1 }, { "scene": "s_fever" }] }
+          }
+        },
+        {
+          "text": "비싼 약을 산다 (15G)", "showLocked": true, "hint": "금화 15G 이상 필요",
+          "conditions": { "cmp": ["gold", ">=", 15] },
+          "outcome": { "text": "약은 쓰고 비쌌지만 효과가 있었다.", "effects": [{ "gold": -15 }] }
+        },
+        {
+          "text": "점술가의 부적을 붙인다",
+          "check": { "dice": "d100", "stat": "cha", "dc": 40, "tags": ["fate"] },
+          "outcomes": {
+            "success": { "text": "부적이 효험이 있었는지, 열이 씻은 듯 내렸다.", "effects": [{ "flag": "amulet_belief", "set": true }] },
+            "fail": { "text": "부적은 그냥 종이였다. 열은 일주일을 더 갔다.", "effects": [{ "health": -1 }, { "scene": "s_fever" }] }
+          }
+        }
+      ]
+    },
+    {
+      "id": "e_school_exam", "title": "학당 입학시험", "ages": [10, 14],
+      "weightMods": [{ "if": { "trait": "bookworm" }, "add": 5 }],
+      "text": [
+        { "text": "{birthplace}의 학당이 입학생을 뽑는다. 시험관이 양피지와 깃펜을 나눠 준다." },
+        { "if": { "status": "commoner" }, "text": " 평민 아이가 붙으면 학비는 면제다." },
+        { "if": { "status": "noble" }, "text": " 귀족 자제는 성적에 따라 기부금이 달라진다." }
+      ],
+      "choices": [
+        {
+          "text": "정면 승부",
+          "check": { "dice": "d20", "stat": "int", "dc": 13, "tags": ["study"] },
+          "outcomes": {
+            "crit_success": { "text": "수석 합격. 학당장이 직접 당신을 불렀다.", "effects": [{ "stat": "int", "add": 2 }, { "rep": 1 }, { "flag": "scholar", "set": true }] },
+            "success": { "text": "합격! 학당의 문이 열렸다.", "effects": [{ "stat": "int", "add": 1 }, { "flag": "scholar", "set": true }] },
+            "fail": { "text": "떨어졌다. 대신 그 시간에 거리에서 배운 것도 있었다.", "effects": [{ "stat": "dex", "add": 1 }, { "flag": "street_kid", "set": true }] },
+            "crit_fail": { "text": "시험지에 잉크를 쏟고 쫓겨났다. 거리가 당신의 학당이 되었다.", "effects": [{ "rep": -1 }, { "stat": "dex", "add": 1 }, { "flag": "street_kid", "set": true }] }
+          }
+        },
+        {
+          "text": "옆자리 답안을 훔쳐본다",
+          "check": { "dice": "d20", "stat": "dex", "dc": 12 },
+          "outcomes": {
+            "success": { "text": "옆자리 아이의 답을 베껴 붙었다. 양심이 조금 아팠다.", "effects": [{ "flag": "scholar", "set": true }, { "flag": "dishonest_past", "set": true }] },
+            "fail": { "text": "들켰다. 학당 앞에 '부정행위자' 명단이 붙었다.", "effects": [{ "rep": -2 }, { "flag": "street_kid", "set": true }] }
+          }
+        },
+        {
+          "text": "가문이 기부금을 낸다 (40G)", "conditions": { "status": "noble" },
+          "outcome": { "text": "가문이 돈을 냈다. 시험지는 백지였지만 합격했다.", "effects": [{ "gold": -40 }, { "flag": "scholar", "set": true }] }
+        }
+      ]
+    },
+    {
+      "id": "e_apprentice", "title": "견습 자리", "ages": [12, 16], "priority": 10,
+      "text": "열두 살을 넘기면 견습 자리를 구해야 한다. 마침 몇 곳에서 자리가 났다.",
+      "choices": [
+        { "text": "상점 견습", "outcome": { "text": "주판과 장부를 배웠다. 손님 얼굴을 기억하는 법도.", "effects": [{ "stat": "cha", "add": 1 }, { "gold": 5 }, { "flag": "appr_merchant", "set": true }] } },
+        { "text": "경비대 견습", "outcome": { "text": "창 쥐는 법과 밤을 지새우는 법을 배웠다.", "effects": [{ "stat": "str", "add": 1 }, { "flag": "appr_guard", "set": true }] } },
+        { "text": "서고 견습", "outcome": { "text": "먼지 쌓인 책장 사이에서 낯선 문자를 익혔다.", "effects": [{ "stat": "int", "add": 1 }, { "flag": "appr_library", "set": true }] } },
+        {
+          "text": "마탑 잡일꾼", "showLocked": true, "hint": "마력 소질 약함 이상 또는 아스테라 출신",
+          "conditions": { "any": [{ "cmp": ["aptitude", ">=", 1] }, { "birthplace": "tower" }] },
+          "outcome": { "text": "마도사들의 실험 도구를 닦으며 마력의 흐름을 눈에 익혔다.", "effects": [{ "stat": "mag", "add": 1 }, { "flag": "appr_tower", "set": true }] }
+        }
+      ]
+    },
+    {
+      "id": "e_dice_alley", "title": "뒷골목 주사위판", "ages": [13, 17],
+      "weightMods": [{ "if": { "trait": "lucky" }, "mul": 2 }, { "if": { "trait": "spendthrift" }, "mul": 1.5 }],
+      "text": [
+        { "text": "뒷골목에서 어른들이 주사위를 굴린다. 판돈은 동전 다섯 닢. 한 남자가 손짓한다. \"한판 할래?\"" },
+        { "if": { "trait": "lucky" }, "text": " 주머니 속에서 손가락이 근질거린다." }
+      ],
+      "choices": [
+        {
+          "text": "판돈을 건다",
+          "check": { "dice": "d100", "stat": "dex", "dc": 40, "tags": ["gamble"] },
+          "outcomes": {
+            "crit_success": { "text": "다섯 판 연속 승리. 남자들이 당신을 '꼬마 운명'이라 불렀다.", "effects": [{ "gold": 40 }, { "flag": "gambler_legend", "set": true }, { "scene": "s_dice_alley" }] },
+            "success": { "text": "주사위가 당신 편이었다. 판돈이 세 배가 되었다.", "effects": [{ "gold": 15 }, { "scene": "s_dice_alley" }] },
+            "fail": { "text": "동전을 모두 잃었다. 남자들은 웃으며 다음에 또 오라 했다.", "effects": [{ "gold": -5 }, { "scene": "s_dice_alley" }] },
+            "crit_fail": { "text": "무게추를 넣은 주사위였다. 가진 돈을 모두 털리고 빚까지 졌다.", "effects": [{ "gold": -20 }, { "flag": "knows_loaded_dice", "set": true }, { "scene": "s_dice_alley" }] }
+          }
+        },
+        {
+          "text": "구경하며 수법을 익힌다",
+          "check": { "dice": "d20", "stat": "int", "dc": 12 },
+          "outcomes": {
+            "success": { "text": "한 남자의 주사위가 유난히 한쪽으로만 구른다는 걸 알아챘다. 그 지식은 언젠가 쓸모가 있을 것이다.", "effects": [{ "stat": "int", "add": 1 }, { "flag": "knows_loaded_dice", "set": true }, { "scene": "s_dice_alley" }] },
+            "fail": { "text": "구경에 정신이 팔린 사이 소매치기를 당했다.", "effects": [{ "gold": -3 }] }
+          }
+        },
+        { "text": "그냥 지나간다", "outcome": { "text": "당신은 등을 돌렸다. 주사위 구르는 소리가 오래 귓가에 맴돌았다.", "effects": [] } }
+      ]
+    },
+    {
+      "id": "e_old_mine", "title": "폐광 탐험", "ages": [14, 18],
+      "weightMods": [{ "if": { "trait": "fearless" }, "mul": 1.5 }],
+      "text": "친구들이 마을 외곽 폐광에 옛 금화가 있다며 들어가자고 한다. 입구에서 차가운 바람이 불어 나온다.",
+      "choices": [
+        {
+          "text": "앞장서서 들어간다",
+          "check": { "dice": "d20", "stat": "str", "dc": 13, "tags": ["danger"] },
+          "outcomes": {
+            "crit_success": { "text": "무너진 갱도 너머에서 은맥을 찾았다. 마을 어른들이 당신을 다시 봤다.", "effects": [{ "gold": 60 }, { "rep": 1 }, { "flag": "mine_explorer", "set": true }, { "scene": "s_old_mine" }] },
+            "success": { "text": "깊은 곳에서 녹슨 상자를 찾았다. 안에는 옛 금화가 몇 닢!", "effects": [{ "gold": 25 }, { "flag": "mine_explorer", "set": true }, { "scene": "s_old_mine" }] },
+            "fail": { "text": "갱도가 무너졌다. 친구들이 당신을 끌어냈지만 다리를 다쳤다.", "effects": [{ "health": -1 }, { "scene": "s_old_mine" }] },
+            "crit_fail": { "text": "어둠 속에 사흘을 갇혀 있었다. 구출된 뒤로 당신은 어둠을 무서워하게 되었다.", "effects": [{ "health": -2 }, { "flag": "dark_fear", "set": true }, { "scene": "s_old_mine" }] }
+          }
+        },
+        {
+          "text": "횃불을 들고 뒤따라간다",
+          "check": { "dice": "d20", "stat": "dex", "dc": 10 },
+          "outcomes": {
+            "success": { "text": "앞사람이 놓친 반짝임을 당신이 주웠다.", "effects": [{ "gold": 10 }, { "scene": "s_old_mine" }] },
+            "fail": { "text": "횃불을 떨어뜨려 모두 어둠 속에서 길을 잃었다. 새벽에야 빠져나왔다.", "effects": [{ "scene": "s_old_mine" }] }
+          }
+        },
+        { "text": "안 간다", "outcome": { "text": "다음 날 친구들이 금화를 자랑했다. 당신은 집에서 장작을 팼다.", "effects": [{ "stat": "str", "add": 1 }] } },
+        {
+          "text": "어른들에게 알린다", "conditions": { "trait": "coward" },
+          "outcome": { "text": "친구들은 혼났고 당신을 미워했다. 그런데 그날 밤, 폐광 입구가 무너졌다는 소식이 들렸다.", "effects": [{ "stat": "int", "add": 1 }, { "flag": "snitch", "set": true }] }
+        }
+      ]
+    },
+    {
+      "id": "e_festival", "title": "등불 축제의 밤", "ages": [15, 19],
+      "text": "여름 축제의 밤. 등불이 강을 따라 흘러가고, 광장에서는 춤판이 벌어졌다. 늘 눈길이 가던 이웃 아이가 당신 쪽을 본다.",
+      "choices": [
+        {
+          "text": "함께 춤추자고 청한다",
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 10, "tags": ["social"] },
+          "outcomes": {
+            "success": { "text": "둘은 날이 밝을 때까지 광장에서 웃으며 춤췄다. 그 밤은 오래 기억에 남았다.", "effects": [{ "stat": "cha", "add": 1 }, { "flag": "sweetheart", "set": true }, { "scene": "s_festival_night" }] },
+            "partial": { "text": "발을 몇 번 밟았지만, 그 아이는 웃어 주었다.", "effects": [{ "flag": "sweetheart", "set": true }, { "scene": "s_festival_night" }] },
+            "fail": { "text": "말을 꺼내기도 전에 다른 아이가 먼저 손을 내밀었다. 당신은 강가에 앉아 등불을 오래 바라보았다.", "effects": [{ "flag": "lonely_festival", "set": true }, { "scene": "s_festival_night" }] }
+          }
+        },
+        {
+          "text": "노점에서 장사를 돕는다",
+          "check": { "dice": "d20", "stat": "dex", "dc": 10, "tags": ["trade"] },
+          "outcomes": {
+            "success": { "text": "꼬치구이가 날개 돋친 듯 팔렸다. 주인이 수익을 나눠 주었다.", "effects": [{ "gold": 15 }] },
+            "fail": { "text": "꼬치를 몽땅 태웠다. 주인은 한숨만 쉬었다.", "effects": [] }
+          }
+        },
+        { "text": "친구들과 등불을 띄운다", "outcome": { "text": "소원을 적은 등불이 강물을 따라 멀어졌다. 무엇을 빌었는지는 당신만 안다.", "effects": [{ "flag": "lantern_wish", "set": true }, { "scene": "s_festival_night" }] } }
+      ]
+    },
+    {
+      "id": "e_coming_of_age", "title": "성인식 — 세 개의 문", "ages": [18, 24], "priority": 100,
+      "conditions": { "career": "none" },
+      "text": [
+        { "text": "스무 살 무렵, {birthplace}의 성인식. 당신은 세 개의 문 앞에 선다. 상인 길드, 모험가 길드, 그리고 마탑." },
+        { "if": { "flag": "appr_merchant" }, "text": " 상점에서 익힌 주판 소리가 귀에 맴돈다." },
+        { "if": { "flag": "appr_guard" }, "text": " 경비대에서 단련한 팔이 근질거린다." },
+        { "if": { "any": [{ "flag": "appr_library" }, { "flag": "appr_tower" }] }, "text": " 서가의 먼지 냄새가 그립다." },
+        { "text": " 이 선택이 남은 생의 돈줄을 정한다." }
+      ],
+      "choices": [
+        { "text": "상인 길드의 문", "hint": "꾸준한 수입, 등급에 따라 크게 성장. 매력이 수입을 올린다.", "outcome": { "text": "장부 한 권과 낡은 저울을 받았다. 이제 돈이 돈을 버는 세계다.", "effects": [{ "career": "merchant" }, { "scene": "s_coming_of_age" }] } },
+        { "text": "모험가 길드의 문", "hint": "고정 수입은 적고 의뢰 보상이 크다. 힘이 수입을 올린다.", "outcome": { "text": "녹슨 검과 풋내기 명패를 받았다. 위험할수록 보상은 크다.", "effects": [{ "career": "adventurer" }, { "scene": "s_coming_of_age" }] } },
+        {
+          "text": "마탑의 문", "showLocked": true, "hint": "마력 4 이상, 마력 소질 보통 이상, 또는 마탑의 눈에 든 적이 있어야 한다.",
+          "conditions": { "any": [{ "cmp": ["mag", ">=", 4] }, { "cmp": ["aptitude", ">=", 2] }, { "flag": "tower_noticed" }, { "flag": "appr_tower" }] },
+          "outcome": { "text": "마탑의 문이 당신을 알아보고 스스로 열렸다.", "effects": [{ "career": "mage" }, { "scene": "s_coming_of_age" }] }
+        },
+        { "text": "어느 문도 열지 않는다", "hint": "날품팔이로 산다. 수입이 가장 적다.", "outcome": { "text": "당신은 문 대신 길을 택했다. 날품을 팔며 자유롭게 산다.", "effects": [{ "flag": "free_soul", "set": true }, { "scene": "s_coming_of_age" }] } }
+      ]
+    }
+  ]
+}

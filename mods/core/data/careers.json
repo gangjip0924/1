@@ -1,0 +1,56 @@
+{
+  "type": "careers",
+  "items": [
+    {
+      "id": "merchant",
+      "name": "상인",
+      "desc": "돈이 돈을 버는 길. 수입이 꾸준하고 등급에 따라 크게 는다. 매력이 수입을 올린다.",
+      "baseIncome": 26,
+      "rankMult": 0.6,
+      "stat": "cha",
+      "statIncome": 4,
+      "rankTitles": [
+        "떠돌이 행상",
+        "노점 주인",
+        "상점 주인",
+        "상회 대표",
+        "길드 원로",
+        "상업 귀족"
+      ]
+    },
+    {
+      "id": "adventurer",
+      "name": "모험가",
+      "desc": "고정 수입은 적지만 의뢰 한 번에 큰돈이 들어온다. 몸이 밑천이다. 힘이 수입을 올린다.",
+      "baseIncome": 26,
+      "rankMult": 0.6,
+      "stat": "str",
+      "statIncome": 4,
+      "rankTitles": [
+        "풋내기",
+        "철 등급",
+        "은 등급",
+        "금 등급",
+        "백금 등급",
+        "전설"
+      ]
+    },
+    {
+      "id": "mage",
+      "name": "마도사",
+      "desc": "마탑의 길. 처음엔 연구비가 들지만 등급이 오르면 수입이 가장 높다. 마력이 수입을 올린다.",
+      "baseIncome": 24,
+      "rankMult": 0.8,
+      "stat": "mag",
+      "statIncome": 5,
+      "rankTitles": [
+        "견습 마도사",
+        "마도사",
+        "상급 마도사",
+        "마탑 교수",
+        "대마도사",
+        "현자"
+      ]
+    }
+  ]
+}

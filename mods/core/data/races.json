@@ -1,0 +1,41 @@
+{
+  "type": "races",
+  "items": [
+    {
+      "id": "human",
+      "name": "인간",
+      "desc": "어디서나 살아남는 짧고 굵은 생. 특성 포인트 +1. 55세 이후 노쇠가 시작된다.",
+      "prompt": "human",
+      "traitPoints": 1,
+      "frailAge": 55,
+      "tags": ["human"]
+    },
+    {
+      "id": "elf",
+      "name": "엘프",
+      "desc": "별빛 숲의 오래 사는 종족. 마력 +2, 매력 +1, 힘 −1. 68세까지 노쇠하지 않는다.",
+      "prompt": "elf with long pointed ears, slender",
+      "modifiers": [
+        { "type": "stat", "stat": "mag", "value": 2 },
+        { "type": "stat", "stat": "cha", "value": 1 },
+        { "type": "stat", "stat": "str", "value": -1 }
+      ],
+      "frailAge": 68,
+      "tags": ["elf"]
+    },
+    {
+      "id": "dwarf",
+      "name": "드워프",
+      "desc": "산맥 홀의 단단한 종족. 힘 +1, 재주 +2, 매력 −1, 건강 +1. 62세부터 노쇠한다.",
+      "prompt": "dwarf, short and stout, sturdy build",
+      "modifiers": [
+        { "type": "stat", "stat": "str", "value": 1 },
+        { "type": "stat", "stat": "dex", "value": 2 },
+        { "type": "stat", "stat": "cha", "value": -1 },
+        { "type": "health", "value": 1 }
+      ],
+      "frailAge": 62,
+      "tags": ["dwarf"]
+    }
+  ]
+}

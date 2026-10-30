@@ -1,0 +1,29 @@
+{
+  "id": "core",
+  "name": "기본 콘텐츠",
+  "version": "0.1.0",
+  "author": "태생 설계도",
+  "description": "게임의 기본 콘텐츠. 자체 콘텐츠도 외부 모드팩과 같은 로더·검증을 거친다.",
+  "gameVersion": 1,
+  "data": [
+    "data/config.json",
+    "data/style.json",
+    "data/blocklist.json",
+    "data/dice.json",
+    "data/races.json",
+    "data/statuses.json",
+    "data/birthplaces.json",
+    "data/traits.json",
+    "data/careers.json",
+    "data/characters.json",
+    "data/scenes.json",
+    "data/achievements.json",
+    "data/events_childhood.json",
+    "data/events_merchant.json",
+    "data/events_adventurer.json",
+    "data/events_mage.json",
+    "data/events_life.json",
+    "data/events_elder.json",
+    "data/events_filler.json"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "type": "statuses",
+  "items": [
+    {
+      "id": "commoner",
+      "name": "평민",
+      "desc": "가진 것 없이 시작하지만 아끼며 산다. 특성 포인트 +1, 시작 금화 10G, 성인 생활비 연 10G.",
+      "weight": 3,
+      "startGold": 10,
+      "livingCost": 10,
+      "traitPoints": 1,
+      "tags": ["commoner"]
+    },
+    {
+      "id": "noble",
+      "name": "귀족",
+      "desc": "넉넉한 출발과 무거운 체면. 매력 +1, 시작 금화 150G, 성인 생활비 연 35G.",
+      "weight": 1,
+      "startGold": 150,
+      "livingCost": 35,
+      "modifiers": [{ "type": "stat", "stat": "cha", "value": 1 }],
+      "tags": ["noble"]
+    }
+  ]
+}

@@ -1,0 +1,229 @@
+{
+  "type": "events",
+  "comment": "모험가 진로 사건.",
+  "items": [
+    {
+      "id": "a_goblin", "title": "첫 의뢰: 고블린 굴", "ages": [20, 26], "priority": 20, "conditions": { "career": "adventurer" },
+      "text": "모험가 길드 게시판의 첫 의뢰. 마을 우물을 더럽히는 고블린 무리를 쫓아내라. 보수는 30G.",
+      "choices": [
+        {
+          "text": "정면으로 돌파한다",
+          "check": { "dice": "d20", "stat": "str", "dc": 12, "tags": ["danger"] },
+          "outcomes": {
+            "crit_success": { "text": "고블린 족장을 사로잡았다. 길드에서 당신 이름이 오르내리기 시작했다.", "effects": [{ "gold": 90 }, { "rank": 1 }, { "scene": "s_goblin_cave" }] },
+            "success": { "text": "고블린들이 비명을 지르며 달아났다. 굴 안에서 그들이 훔친 물건도 찾았다.", "effects": [{ "gold": 60 }, { "scene": "s_goblin_cave" }] },
+            "fail": { "text": "고블린이 생각보다 많았다. 반쯤 쫓아내고 반쯤 쫓겨났다.", "effects": [{ "gold": 15 }, { "health": -1 }, { "scene": "s_goblin_cave" }] },
+            "crit_fail": { "text": "함정에 빠져 사흘 만에 기어 나왔다. 길드에서 '함정 애호가'라는 별명이 붙었다.", "effects": [{ "health": -2 }, { "flag": "trap_lover", "set": true }, { "scene": "s_goblin_cave" }] }
+          }
+        },
+        {
+          "text": "몰래 숨어들어 족장만 노린다",
+          "check": { "dice": "d20", "stat": "dex", "dc": 13, "tags": ["danger"] },
+          "outcomes": {
+            "success": { "text": "족장이 쓰러지자 무리는 흩어졌다.", "effects": [{ "gold": 50 }, { "scene": "s_goblin_cave" }] },
+            "fail": { "text": "발각되었다. 겨우 도망쳤다.", "effects": [{ "health": -1 }, { "scene": "s_goblin_cave" }] }
+          }
+        },
+        {
+          "text": "고블린과 협상한다",
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 11, "tags": ["social"] },
+          "outcomes": {
+            "success": { "text": "고블린들에게 다른 샘을 알려 주자 순순히 이사 갔다. 아무도 다치지 않았다.", "effects": [{ "gold": 30 }, { "rep": 1 }, { "flag": "goblin_friend", "set": true }, { "scene": "s_goblin_cave" }] },
+            "partial": { "text": "고블린들은 떠났지만 보수의 절반을 '이사비'로 뜯어 갔다.", "effects": [{ "gold": 15 }, { "scene": "s_goblin_cave" }] },
+            "fail": { "text": "고블린들은 당신 신발을 훔쳐 갔다.", "effects": [{ "gold": -5 }, { "scene": "s_goblin_cave" }] }
+          }
+        }
+      ]
+    },
+    {
+      "id": "a_party", "title": "동료 구하기", "ages": [20, 30], "conditions": { "career": "adventurer" },
+      "text": "혼자서는 한계가 있다. 술집에서 동료를 구한다. 말 많은 음유시인, 과묵한 궁수, 그리고 수상한 성직자.",
+      "choices": [
+        { "text": "과묵한 궁수와 손을 잡는다", "outcome": { "text": "궁수는 말 대신 화살로 대답했다. 의뢰가 한결 수월해졌다.", "effects": [{ "flag": "party_archer", "set": true }, { "stat": "dex", "add": 1 }] } },
+        {
+          "text": "음유시인을 영입한다",
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 9, "tags": ["social"] },
+          "outcomes": {
+            "success": { "text": "음유시인이 당신의 무용담을 노래로 지어 퍼뜨렸다.", "effects": [{ "rep": 2 }, { "flag": "party_bard", "set": true }] },
+            "partial": { "text": "노래는 그럭저럭 퍼졌다.", "effects": [{ "rep": 1 }, { "flag": "party_bard", "set": true }] },
+            "fail": { "text": "음유시인은 당신의 실패담만 노래했다. 그게 더 잘 팔렸다.", "effects": [{ "rep": -1 }, { "flag": "party_bard", "set": true }] }
+          }
+        },
+        {
+          "text": "수상한 성직자를 믿어 본다",
+          "check": { "dice": "d100", "stat": "cha", "dc": 40, "tags": ["fate"] },
+          "outcomes": {
+            "success": { "text": "그는 진짜 치유사였다. 몇 번이나 목숨을 건졌다.", "effects": [{ "health": 2 }, { "flag": "party_healer", "set": true }] },
+            "fail": { "text": "그는 당신 지갑을 들고 사라졌다.", "effects": [{ "gold": -50 }] }
+          }
+        }
+      ]
+    },
+    {
+      "id": "a_dungeon", "title": "잊힌 지하 묘소", "ages": [22, 44], "conditions": { "career": "adventurer" },
+      "text": [
+        { "text": "옛 왕의 지하 묘소가 발견되었다. 함정과 보물이 함께 잠들어 있다." },
+        { "if": { "flag": "party_archer" }, "text": " 궁수가 화살 끝으로 바닥의 압력판을 가리킨다." }
+      ],
+      "choices": [
+        {
+          "text": "함정을 해체하며 나아간다",
+          "check": { "dice": "d20", "stat": "dex", "dc": 14, "tags": ["danger"] },
+          "outcomes": {
+            "crit_success": { "text": "석관 속에서 왕관과 왕홀을 모두 찾았다.", "effects": [{ "gold": 350 }, { "rank": 1 }] },
+            "success": { "text": "마지막 방의 석관에서 보석 박힌 왕관을 찾았다.", "effects": [{ "gold": 200 }, { "rank": 1 }] },
+            "fail": { "text": "독침 함정. 해독제 값이 보물 값보다 비쌌다.", "effects": [{ "gold": -30 }, { "health": -2 }] },
+            "crit_fail": { "text": "천장이 무너졌다. 누군가 당신을 끌어냈지만, 다리는 예전 같지 않다.", "effects": [{ "health": -3 }, { "flag": "old_wound", "set": true }] }
+          }
+        },
+        {
+          "text": "옆길의 작은 방만 턴다",
+          "check": { "dice": "d20", "stat": "int", "dc": 11 },
+          "outcomes": {
+            "success": { "text": "시종들의 방에도 금붙이는 있었다.", "effects": [{ "gold": 80 }] },
+            "fail": { "text": "이미 털린 방이었다.", "effects": [{ "gold": 10 }] }
+          }
+        },
+        {
+          "text": "궁수에게 앞장을 맡긴다", "conditions": { "flag": "party_archer" },
+          "check": { "dice": "d20", "stat": "dex", "dc": 10, "tags": ["danger"] },
+          "outcomes": {
+            "success": { "text": "궁수의 눈은 정확했다. 함정을 모두 피해 보물방에 닿았다.", "effects": [{ "gold": 220 }, { "rank": 1 }] },
+            "fail": { "text": "궁수도 실수할 때가 있다.", "effects": [{ "gold": 40 }, { "health": -1 }] }
+          }
+        }
+      ]
+    },
+    {
+      "id": "a_dragon", "title": "용의 소문", "ages": [28, 52], "conditions": { "all": [{ "career": "adventurer" }, { "cmp": ["rank", ">=", 2] }] },
+      "text": "북쪽 산맥에 늙은 용이 잠들어 있다는 소문. 그 굴에는 왕국 하나를 살 만한 보물이 쌓여 있다고 한다.",
+      "choices": [
+        {
+          "text": "용과 싸운다",
+          "check": { "dice": "d20", "stat": "str", "dc": 17, "tags": ["danger"] },
+          "outcomes": {
+            "crit_success": { "text": "전설이 태어났다. 용의 목을 베고 보물산 위에 섰다. 음유시인들이 백 년 동안 노래할 것이다.", "effects": [{ "gold": 2500 }, { "rank": 2 }, { "rep": 5 }, { "scene": "s_dragon_hoard" }, { "achievement": "a_dragon" }] },
+            "success": { "text": "용은 쓰러졌고, 보물은 당신 것이 되었다.", "effects": [{ "gold": 1500 }, { "rank": 2 }, { "rep": 4 }, { "scene": "s_dragon_hoard" }, { "achievement": "a_dragon" }] },
+            "fail": { "text": "용의 숨결에 휩쓸렸다. 살아 돌아온 것만으로 기적이다.", "effects": [{ "health": -4 }, { "scene": "s_dragon_hoard" }] },
+            "crit_fail": { "text": "용의 숨결이 산을 녹였다.", "effects": [{ "scene": "s_dragon_hoard" }, { "death": "용의 숨결 속에서 전설이 되지 못한 채 쓰러졌다" }] }
+          }
+        },
+        {
+          "text": "잠든 틈에 보물만 훔친다",
+          "check": { "dice": "d20", "stat": "dex", "dc": 15, "tags": ["danger"] },
+          "outcomes": {
+            "success": { "text": "금화 자루 두 개를 메고 살금살금 빠져나왔다. 용은 코를 골았다.", "effects": [{ "gold": 600 }, { "scene": "s_dragon_hoard" }, { "achievement": "a_dragon" }] },
+            "fail": { "text": "용이 한쪽 눈을 떴다. 금화 한 닢을 쥔 채 죽어라 달렸다.", "effects": [{ "gold": 1 }, { "health": -2 }, { "scene": "s_dragon_hoard" }] }
+          }
+        },
+        {
+          "text": "용에게 말을 건다",
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 12, "tags": ["social"] },
+          "outcomes": {
+            "success": { "text": "늙은 용은 오랜만의 말동무가 반가웠다. 수수께끼 셋을 맞히자 보물 일부를 내주었다.", "effects": [{ "gold": 800 }, { "flag": "dragon_friend", "set": true }, { "scene": "s_dragon_hoard" }, { "achievement": "a_dragon" }] },
+            "partial": { "text": "용은 수수께끼 하나를 맞힌 값으로 금화 한 줌을 던져 주었다.", "effects": [{ "gold": 150 }, { "scene": "s_dragon_hoard" }] },
+            "fail": { "text": "용은 당신을 하찮게 여겨 산 아래로 내던졌다.", "effects": [{ "health": -2 }] }
+          }
+        },
+        { "text": "소문은 소문일 뿐", "outcome": { "text": "현명한 모험가는 늙는다.", "effects": [] } }
+      ]
+    },
+    {
+      "id": "a_injury", "title": "곪은 상처", "ages": [22, 52], "weight": 8, "conditions": { "career": "adventurer" },
+      "weightMods": [{ "if": { "trait": "sickly" }, "mul": 2 }, { "if": { "trait": "iron_body" }, "mul": 0.5 }],
+      "text": "의뢰 중 입은 상처가 곪았다. 열이 오르고 검을 쥐기도 힘들다.",
+      "choices": [
+        {
+          "text": "신전 치유사를 찾는다 (60G)", "showLocked": true, "hint": "금화 60G 이상 필요",
+          "conditions": { "cmp": ["gold", ">=", 60] },
+          "outcome": { "text": "치유의 빛이 상처를 씻어 냈다. 비쌌다.", "effects": [{ "gold": -60 }, { "health": 1 }] }
+        },
+        {
+          "text": "버티며 의뢰를 계속한다",
+          "check": { "dice": "d20", "stat": "str", "dc": 13, "tags": ["disease"] },
+          "outcomes": {
+            "success": { "text": "상처는 흉터가 되었고, 흉터는 훈장이 되었다.", "effects": [{ "gold": 40 }, { "rep": 1 }] },
+            "fail": { "text": "결국 쓰러졌다. 한 해를 누워 지냈다.", "effects": [{ "health": -2 }, { "years": 1 }] }
+          }
+        },
+        {
+          "text": "동료 치유사에게 맡긴다", "conditions": { "flag": "party_healer" },
+          "outcome": { "text": "수상했던 그 성직자가 밤새 기도했다. 상처는 깨끗이 아물었다.", "effects": [{ "health": 2 }] }
+        }
+      ]
+    },
+    {
+      "id": "a_promotion", "title": "승급 시험", "ages": [22, 46], "conditions": { "career": "adventurer" },
+      "text": "모험가 길드의 승급 시험. 시험관은 은퇴한 전설의 모험가다. \"보여 줘라, 네가 무엇으로 살아남는지.\"",
+      "choices": [
+        {
+          "text": "검술로",
+          "check": { "dice": "d20", "stat": "str", "dc": 13, "tags": ["career", "danger"] },
+          "outcomes": {
+            "success": { "text": "시험관의 목검이 허공으로 날아갔다.", "effects": [{ "rank": 1 }, { "gold": 30 }] },
+            "fail": { "text": "목검에 정강이를 맞았다. 내년에 다시.", "effects": [{ "health": -1 }] }
+          }
+        },
+        {
+          "text": "기지로",
+          "check": { "dice": "d20", "stat": "int", "dc": 13, "tags": ["career"] },
+          "outcomes": {
+            "success": { "text": "시험관이 낸 함정 문제를 거꾸로 이용했다. 통과.", "effects": [{ "rank": 1 }] },
+            "fail": { "text": "함정 문제에 그대로 걸렸다.", "effects": [] }
+          }
+        },
+        {
+          "text": "입담으로",
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 11, "tags": ["career", "social"] },
+          "outcomes": {
+            "success": { "text": "당신의 무용담에 시험관이 껄껄 웃었다. 반쯤은 거짓말인 걸 알면서도.", "effects": [{ "rank": 1 }] },
+            "partial": { "text": "합격은 했지만 허풍쟁이라는 소문도 났다.", "effects": [{ "rank": 1 }, { "rep": -1 }] },
+            "fail": { "text": "시험관은 하품을 했다.", "effects": [{ "rep": -1 }] }
+          }
+        }
+      ]
+    },
+    {
+      "id": "a_cursed_relic", "title": "속삭이는 목걸이", "ages": [25, 50], "conditions": { "career": "adventurer" },
+      "text": [
+        { "text": "의뢰 보수에 검은 보석 목걸이가 섞여 있다. 만질 때마다 속삭임이 들린다." },
+        { "if": { "cmp": ["mag", ">=", 4] }, "text": " 당신의 마력이 그 속삭임의 정체를 어렴풋이 알려 준다. 저주다." }
+      ],
+      "choices": [
+        {
+          "text": "마력으로 저주를 푼다",
+          "check": { "dice": "d100", "stat": "mag", "dc": 25, "tags": ["magic"] },
+          "outcomes": {
+            "success": { "text": "저주가 풀리자 보석은 맑게 빛났다. 값이 열 배가 되었다.", "effects": [{ "gold": 300 }] },
+            "fail": { "text": "저주가 당신에게 옮겨붙었다. 몸이 무겁다.", "effects": [{ "health": -2 }, { "flag": "cursed", "set": true }] }
+          }
+        },
+        {
+          "text": "수집가에게 팔아 치운다",
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 10, "tags": ["trade"] },
+          "outcomes": {
+            "success": { "text": "수집가에게 비싸게 팔았다. 저주는 이제 그의 몫이다.", "effects": [{ "gold": 150 }] },
+            "partial": { "text": "헐값에 넘겼다. 그래도 속삭임은 멈췄다.", "effects": [{ "gold": 60 }] },
+            "fail": { "text": "아무도 사지 않았다. 다음 날 목걸이는 당신 베개 밑에 돌아와 있었다.", "effects": [{ "health": -1 }, { "flag": "cursed", "set": true }] }
+          }
+        },
+        { "text": "강에 던진다", "outcome": { "text": "목걸이는 가라앉았다. 속삭임도 멈췄다.", "effects": [] } }
+      ]
+    },
+    {
+      "id": "a_retire_offer", "title": "교관 자리", "ages": [40, 58], "conditions": { "career": "adventurer" },
+      "text": "길드가 신참 교관 자리를 제안한다. 안정적인 봉급. 하지만 게시판에는 마지막으로 큰 의뢰 하나가 남아 있다.",
+      "choices": [
+        { "text": "교관이 된다", "outcome": { "text": "칼 대신 지휘봉을 들었다. 신참들의 눈이 반짝인다.", "effects": [{ "rank": 1 }, { "health": 1 }, { "flag": "instructor", "set": true }] } },
+        {
+          "text": "마지막 의뢰를 맡는다",
+          "check": { "dice": "d20", "stat": "str", "dc": 15, "tags": ["danger"] },
+          "outcomes": {
+            "success": { "text": "마지막 의뢰는 최고의 의뢰였다.", "effects": [{ "gold": 500 }, { "rep": 2 }] },
+            "fail": { "text": "나이를 실감했다. 보수는 약값으로 사라졌다.", "effects": [{ "gold": 50 }, { "health": -3 }] }
+          }
+        }
+      ]
+    }
+  ]
+}

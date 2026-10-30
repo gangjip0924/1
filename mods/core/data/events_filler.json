@@ -1,0 +1,62 @@
+{
+  "type": "events",
+  "comment": "filler 사건은 다른 사건이 하나도 없을 때만 나온다. 선택마다 몇 해가 흐른다 — 시간이 곧 기회비용이다.",
+  "items": [
+    {
+      "id": "f_quiet_child", "title": "평범한 나날", "ages": [1, 19], "filler": true, "once": false, "years": 2,
+      "text": "특별한 일 없이 계절이 지나간다. 이 시기를 어떻게 보낼까?",
+      "choices": [
+        { "text": "들판을 뛰어논다", "outcome": { "text": "무릎에 딱지가 앉고, 다리에 힘이 붙었다.", "effects": [{ "stat": "str", "add": 1 }] } },
+        { "text": "책을 읽는다", "outcome": { "text": "책장 넘기는 소리가 좋았다.", "effects": [{ "stat": "int", "add": 1 }] } },
+        { "text": "어른들 일을 거든다", "outcome": { "text": "동전 몇 닢과 칭찬을 받았다.", "effects": [{ "gold": 5 }, { "stat": "cha", "add": 1 }] } }
+      ]
+    },
+    {
+      "id": "f_quiet_adult", "title": "흘러가는 세월", "ages": [20, 54], "filler": true, "once": false, "years": 3,
+      "text": [
+        { "if": { "career": "none" }, "text": "날품을 팔며 몇 해가 흐른다." },
+        { "if": { "not": { "career": "none" } }, "text": "{career}(으)로서의 나날이 이어진다." },
+        { "text": " 앞으로 세 해를 어떻게 보낼까?" }
+      ],
+      "choices": [
+        { "text": "일에 몰두한다", "hint": "+90G, 건강 −1", "outcome": { "text": "밤낮없이 일했다. 금고는 무거워지고 몸은 가벼워졌다.", "effects": [{ "gold": 90 }, { "health": -1 }] } },
+        { "text": "몸을 돌본다", "hint": "건강 +2", "outcome": { "text": "온천과 산책. 몸이 다시 가벼워졌다.", "effects": [{ "health": 2 }] } },
+        {
+          "text": "거래처를 넓힌다", "conditions": { "career": "merchant" },
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 11, "tags": ["career", "trade"] },
+          "outcomes": {
+            "success": { "text": "새 거래처가 줄을 섰다. 상회의 격이 올랐다.", "effects": [{ "rank": 1 }] },
+            "partial": { "text": "거래처 몇 곳을 텄다.", "effects": [{ "gold": 40 }] },
+            "fail": { "text": "발품만 팔았다.", "effects": [] }
+          }
+        },
+        {
+          "text": "고난도 의뢰를 맡는다", "conditions": { "career": "adventurer" },
+          "check": { "dice": "d20", "stat": "str", "dc": 14, "tags": ["career", "danger"] },
+          "outcomes": {
+            "success": { "text": "고난도 의뢰를 연달아 해냈다. 길드가 등급을 올려 주었다.", "effects": [{ "rank": 1 }, { "gold": 60 }] },
+            "fail": { "text": "의뢰는 실패했고 몸만 상했다.", "effects": [{ "health": -1 }] }
+          }
+        },
+        {
+          "text": "연구에 매진한다", "conditions": { "career": "mage" },
+          "check": { "dice": "d20", "stat": "int", "dc": 13, "tags": ["career", "study"] },
+          "outcomes": {
+            "success": { "text": "논문 세 편. 마탑이 당신의 등급을 올렸다.", "effects": [{ "rank": 1 }] },
+            "fail": { "text": "가설은 모두 틀렸다. 그래도 마력은 조금 늘었다.", "effects": [{ "stat": "mag", "add": 1 }] }
+          }
+        },
+        { "text": "기술을 배운다", "conditions": { "career": "none" }, "outcome": { "text": "목수, 어부, 짐꾼. 손이 기억하는 일이 늘었다.", "effects": [{ "stat": "dex", "add": 1 }, { "gold": 30 }] } }
+      ]
+    },
+    {
+      "id": "f_quiet_elder", "title": "황혼의 나날", "ages": [55, 90], "filler": true, "once": false, "years": 3,
+      "text": "머리카락은 희어졌고 아침잠은 줄었다. 남은 날들을 어떻게 보낼까?",
+      "choices": [
+        { "text": "아직 일한다", "hint": "+70G, 건강 −1", "outcome": { "text": "늙은 손도 일은 한다.", "effects": [{ "gold": 70 }, { "health": -1 }] } },
+        { "text": "편히 쉰다", "hint": "건강 +1", "outcome": { "text": "햇볕 아래 졸다 깨다 했다.", "effects": [{ "health": 1 }] } },
+        { "text": "젊은이들을 가르친다", "outcome": { "text": "당신의 경험이 누군가의 지름길이 되었다.", "effects": [{ "rep": 1 }, { "gold": 20 }] } }
+      ]
+    }
+  ]
+}

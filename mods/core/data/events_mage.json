@@ -1,0 +1,193 @@
+{
+  "type": "events",
+  "comment": "마도사 진로 사건.",
+  "items": [
+    {
+      "id": "g_entrance", "title": "마탑 입문 시험", "ages": [20, 25], "priority": 20, "conditions": { "career": "mage" },
+      "text": "마탑 최하층, 시험의 방. 수정구에 손을 얹으면 당신의 마력이 측정된다.",
+      "choices": [
+        {
+          "text": "수정구에 마력을 쏟아붓는다",
+          "check": { "dice": "d20", "stat": "mag", "dc": 12, "tags": ["magic", "career"] },
+          "outcomes": {
+            "crit_success": { "text": "수정구가 깨졌다. 시험관들이 웅성거렸다.", "effects": [{ "rank": 1 }, { "stat": "mag", "add": 1 }, { "rep": 1 }] },
+            "success": { "text": "수정구가 푸르게 타올랐다. 견습 딱지를 떼고 정식 마도사가 되었다.", "effects": [{ "rank": 1 }] },
+            "fail": { "text": "수정구가 희미하게 깜빡였다. 견습 생활이 길어질 것 같다.", "effects": [] },
+            "crit_fail": { "text": "수정구가 폭발했다. 배상금 청구서가 날아왔다.", "effects": [{ "gold": -50 }] }
+          }
+        },
+        {
+          "text": "이론 시험으로 대신한다",
+          "check": { "dice": "d20", "stat": "int", "dc": 13, "tags": ["study", "career"] },
+          "outcomes": {
+            "success": { "text": "마력은 모자라도 이론은 완벽했다.", "effects": [{ "rank": 1 }] },
+            "fail": { "text": "시험관이 답안지에 커다란 줄을 그었다.", "effects": [] }
+          }
+        }
+      ]
+    },
+    {
+      "id": "g_patron", "title": "연구 후원자", "ages": [21, 38], "conditions": { "career": "mage" },
+      "text": "연구에는 돈이 든다. 연금술 재료, 희귀 서적, 실험실 임대료. 후원자를 찾아야 한다.",
+      "choices": [
+        {
+          "text": "귀족 앞에서 마법을 시연한다",
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 10, "tags": ["social"] },
+          "outcomes": {
+            "success": { "text": "불꽃 장미가 피어나자 백작 부인이 박수를 쳤다. 넉넉한 후원을 약속받았다.", "effects": [{ "gold": 150 }, { "flag": "patron", "set": true }] },
+            "partial": { "text": "박수는 받았지만 후원금은 적었다.", "effects": [{ "gold": 50 }] },
+            "fail": { "text": "시연 도중 백작 부인의 머리 장식에 불이 붙었다.", "effects": [{ "rep": -1 }, { "gold": -20 }] }
+          }
+        },
+        {
+          "text": "학회 상금을 노린다",
+          "check": { "dice": "d20", "stat": "int", "dc": 14, "tags": ["study"] },
+          "outcomes": {
+            "success": { "text": "논문이 상을 받았다.", "effects": [{ "gold": 120 }, { "rep": 1 }] },
+            "fail": { "text": "논문은 반려되었다.", "effects": [] }
+          }
+        },
+        {
+          "text": "길거리에서 마술 공연을 한다",
+          "check": { "dice": "d20", "stat": "dex", "dc": 9 },
+          "outcomes": {
+            "success": { "text": "체면은 구겼지만 돈은 벌었다.", "effects": [{ "gold": 40 }] },
+            "fail": { "text": "비둘기가 모자에서 나오지 않았다. 마탑 동료들이 그 광경을 봤다.", "effects": [{ "gold": 5 }, { "rep": -1 }] }
+          }
+        }
+      ]
+    },
+    {
+      "id": "g_experiment", "title": "증폭 마법진", "ages": [22, 46], "conditions": { "career": "mage" },
+      "text": "새 마법진이 완성 직전이다. 이론상으로는 마력을 두 배로 증폭한다. 이론상으로는.",
+      "choices": [
+        {
+          "text": "마법진을 가동한다",
+          "check": { "dice": "d100", "stat": "mag", "dc": 30, "tags": ["magic"] },
+          "outcomes": {
+            "crit_success": { "text": "증폭은 두 배가 아니라 열 배였다. 당신의 이름이 교과서에 실렸다.", "effects": [{ "stat": "mag", "add": 2 }, { "rank": 2 }, { "gold": 300 }] },
+            "success": { "text": "마법진이 노래하듯 빛났다. 학계가 뒤집혔다.", "effects": [{ "stat": "mag", "add": 2 }, { "rank": 1 }, { "gold": 100 }] },
+            "fail": { "text": "폭발. 실험실 지붕이 날아갔다.", "effects": [{ "gold": -150 }, { "health": -1 }, { "scene": "s_experiment_blast" }] },
+            "crit_fail": { "text": "폭발이 당신을 삼켰다. 눈을 떴을 때 머리카락이 하얗게 세어 있었다. 이상하게도, 마력은 더 선명해졌다.", "effects": [{ "health": -3 }, { "stat": "mag", "add": 1 }, { "scene": "s_experiment_blast" }] }
+          }
+        },
+        {
+          "text": "안전장치를 덧대 천천히 시험한다",
+          "check": { "dice": "d20", "stat": "int", "dc": 13, "tags": ["study"] },
+          "outcomes": {
+            "success": { "text": "더디지만 확실한 진보.", "effects": [{ "stat": "mag", "add": 1 }] },
+            "fail": { "text": "안전장치가 마력을 다 잡아먹었다. 한 해를 허비했다.", "effects": [{ "years": 1 }] }
+          }
+        },
+        { "text": "실험을 접는다", "outcome": { "text": "물러서는 것도 지혜다. 아쉬움이 남는다.", "effects": [{ "stat": "int", "add": 1 }] } }
+      ]
+    },
+    {
+      "id": "g_curse_lift", "title": "백작가의 저주", "ages": [25, 50], "conditions": { "career": "mage" },
+      "text": "북부 백작이 깨어나지 않는 잠에 빠졌다. 백작 부인은 저주를 푸는 자에게 금화를 약속했다.",
+      "choices": [
+        {
+          "text": "정면으로 저주와 맞선다",
+          "check": { "dice": "d20", "stat": "mag", "dc": 14, "tags": ["magic"] },
+          "outcomes": {
+            "success": { "text": "검은 안개가 비명을 지르며 흩어졌다. 백작이 눈을 떴다. 당신은 왕궁 연회에 초대받았다.", "effects": [{ "gold": 300 }, { "rep": 2 }, { "scene": "s_royal_court" }] },
+            "fail": { "text": "저주가 당신을 밀어냈다. 백작가의 문이 닫혔다.", "effects": [{ "health": -1 }, { "rep": -1 }] },
+            "crit_fail": { "text": "저주가 튕겨 나와 당신에게 들러붙었다.", "effects": [{ "health": -2 }, { "flag": "cursed", "set": true }] }
+          }
+        },
+        {
+          "text": "저주의 근원을 조사한다",
+          "check": { "dice": "d20", "stat": "int", "dc": 13, "tags": ["study"] },
+          "outcomes": {
+            "success": { "text": "저주를 건 자는 백작의 동생이었다. 진실을 밝히고 저주도 풀었다.", "effects": [{ "gold": 250 }, { "rep": 3 }, { "scene": "s_royal_court" }] },
+            "fail": { "text": "단서가 끊겼다. 다른 마도사가 공을 가져갔다.", "effects": [] }
+          }
+        },
+        {
+          "text": "금서에서 본 주문을 쓴다", "conditions": { "flag": "forbidden_knowledge" },
+          "outcome": { "text": "금지된 주문은 단숨에 저주를 찢었다. 아무도 어떻게 했는지 묻지 않았다.", "effects": [{ "gold": 400 }, { "rep": 1 }, { "flag": "forbidden_used", "set": true }, { "scene": "s_royal_court" }] }
+        }
+      ]
+    },
+    {
+      "id": "g_forbidden_library", "title": "봉인된 서고", "ages": [24, 50], "conditions": { "career": "mage" },
+      "weightMods": [{ "if": { "trait": "bookworm" }, "mul": 2 }, { "if": { "flag": "appr_library" }, "add": 5 }],
+      "text": [
+        { "text": "마탑 지하 깊은 곳, 봉인된 서고의 문이 오늘 밤 열려 있다. 경비는 졸고 있다." },
+        { "if": { "trait": "bookworm" }, "text": " 책벌레의 심장이 미친 듯이 뛴다." }
+      ],
+      "choices": [
+        {
+          "text": "몰래 들어간다",
+          "check": { "dice": "d20", "stat": "dex", "dc": 13, "tags": ["danger"] },
+          "outcomes": {
+            "success": { "text": "금서 한 권을 품에 안고 나왔다. 페이지마다 위험한 지식이 가득하다.", "effects": [{ "stat": "mag", "add": 2 }, { "flag": "forbidden_knowledge", "set": true }] },
+            "fail": { "text": "경비에게 들켰다. 벌금과 함께 한 등급 강등.", "effects": [{ "gold": -100 }, { "rank": -1 }] }
+          }
+        },
+        {
+          "text": "봉인을 마력으로 읽어 낸다",
+          "check": { "dice": "d100", "stat": "mag", "dc": 25, "tags": ["magic", "study"] },
+          "outcomes": {
+            "success": { "text": "문을 열지 않고도 책을 읽었다. 봉인 너머의 지식이 머릿속으로 흘러들었다.", "effects": [{ "stat": "mag", "add": 1 }, { "stat": "int", "add": 1 }, { "flag": "forbidden_knowledge", "set": true }] },
+            "fail": { "text": "봉인이 당신의 마력을 물어뜯었다.", "effects": [{ "health": -1 }] }
+          }
+        },
+        { "text": "열린 문을 보고한다", "outcome": { "text": "마탑은 당신의 충성을 기억했다.", "effects": [{ "rank": 1 }, { "rep": 1 }] } }
+      ]
+    },
+    {
+      "id": "g_symposium", "title": "마도 학회", "ages": [30, 52], "conditions": { "career": "mage" },
+      "text": "왕국 마도 학회에서 발표할 기회가 왔다. 원로 마도사들이 맨 앞줄에 팔짱을 끼고 앉아 있다.",
+      "choices": [
+        {
+          "text": "대담한 이론을 발표한다",
+          "check": { "dice": "d6x2", "stat": "int", "dc": 11, "tags": ["study", "career"] },
+          "outcomes": {
+            "success": { "text": "기립 박수. 마탑의 높은 자리가 당신을 기다린다.", "effects": [{ "rank": 1 }, { "rep": 2 }] },
+            "partial": { "text": "반응은 반반이었다. 그래도 이름은 알렸다.", "effects": [{ "rep": 1 }] },
+            "fail": { "text": "원로들이 당신의 이론을 조목조목 반박했다. 얼굴이 화끈거렸다.", "effects": [{ "rep": -1 }] }
+          }
+        },
+        { "text": "안전한 주제로 발표한다", "outcome": { "text": "무난했다. 아무도 기억하지 못할 만큼.", "effects": [{ "gold": 20 }] } }
+      ]
+    },
+    {
+      "id": "g_disciple", "title": "제자", "ages": [34, 60], "conditions": { "all": [{ "career": "mage" }, { "cmp": ["rank", ">=", 2] }] },
+      "text": "스무 살 남짓한 젊은이가 당신의 제자가 되겠다고 찾아왔다. 눈이 반짝인다. 재능은 있어 보이지만 가난하다.",
+      "choices": [
+        { "text": "무료로 가르친다", "outcome": { "text": "제자는 빠르게 자랐다. 언젠가 당신을 넘어설 것이다.", "effects": [{ "rep": 2 }, { "flag": "disciple", "set": true }] } },
+        { "text": "수업료를 받는다", "outcome": { "text": "제자는 빚을 지며 배웠다.", "effects": [{ "gold": 60 }] } },
+        { "text": "거절하고 연구에 집중한다", "outcome": { "text": "당신은 혼자의 길을 걸었다.", "effects": [{ "stat": "mag", "add": 1 }] } }
+      ]
+    },
+    {
+      "id": "g_grand_ritual", "title": "별의 정렬", "ages": [40, 62], "conditions": { "all": [{ "career": "mage" }, { "cmp": ["rank", ">=", 3] }] },
+      "text": [
+        { "text": "백 년에 한 번 별이 정렬하는 밤. 대마법 의식을 성공시키면 현자의 반열에 오른다." },
+        { "if": { "flag": "disciple" }, "text": " 제자가 의식의 보조를 자청했다." }
+      ],
+      "choices": [
+        {
+          "text": "홀로 의식을 집전한다",
+          "check": { "dice": "d20", "stat": "mag", "dc": 16, "tags": ["magic", "career"] },
+          "outcomes": {
+            "crit_success": { "text": "하늘이 열렸다. 별빛이 당신 몸에 새겨졌다. 사람들은 당신을 현자라 불렀다.", "effects": [{ "rank": 2 }, { "rep": 4 }, { "gold": 600 }, { "stat": "mag", "add": 2 }] },
+            "success": { "text": "하늘이 열렸다. 당신은 현자의 반열에 올랐다.", "effects": [{ "rank": 2 }, { "rep": 3 }, { "gold": 500 }] },
+            "fail": { "text": "의식은 반쯤 성공했다. 별빛이 당신 몸에 흉터를 남겼다.", "effects": [{ "health": -2 }] },
+            "crit_fail": { "text": "별빛이 역류했다. 마탑 꼭대기가 사라졌다.", "effects": [{ "health": -4 }, { "rep": -2 }] }
+          }
+        },
+        {
+          "text": "제자와 함께 집전한다", "conditions": { "flag": "disciple" },
+          "check": { "dice": "d20", "stat": "mag", "dc": 13, "tags": ["magic", "career"] },
+          "outcomes": {
+            "success": { "text": "두 사람의 마력이 하나가 되었다. 하늘이 열렸다.", "effects": [{ "rank": 2 }, { "rep": 3 }, { "gold": 400 }] },
+            "fail": { "text": "제자가 당신 대신 역류를 받아 냈다. 둘 다 살았다.", "effects": [{ "health": -1 }] }
+          }
+        },
+        { "text": "의식을 포기한다", "outcome": { "text": "다음 정렬은 백 년 뒤다.", "effects": [] } }
+      ]
+    }
+  ]
+}

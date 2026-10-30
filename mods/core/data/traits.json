@@ -1,0 +1,117 @@
+{
+  "type": "traits",
+  "comment": "cost가 양수면 포인트를 쓰고, 음수면 포인트를 돌려받는다.",
+  "items": [
+    {
+      "id": "haggler",
+      "name": "장사꾼 기질",
+      "desc": "흥정(trade) 판정 +2, 상인 수입 +10%. 저울이 기울면 손끝이 먼저 안다.",
+      "cost": 3,
+      "modifiers": [
+        { "type": "check", "tag": "trade", "value": 2 },
+        { "type": "income", "career": "merchant", "value": 10 }
+      ]
+    },
+    {
+      "id": "fearless",
+      "name": "겁 없음",
+      "desc": "위험(danger) 판정 +2. 늑대도 용도 먼저 눈을 피한다.",
+      "cost": 2,
+      "exclusive": ["coward"],
+      "modifiers": [{ "type": "check", "tag": "danger", "value": 2 }]
+    },
+    {
+      "id": "bookworm",
+      "name": "책벌레",
+      "desc": "지혜 +1, 학문(study) 판정 +1. 금지된 서고의 문이 더 자주 눈에 띈다.",
+      "cost": 2,
+      "modifiers": [
+        { "type": "stat", "stat": "int", "value": 1 },
+        { "type": "check", "tag": "study", "value": 1 }
+      ]
+    },
+    {
+      "id": "lucky",
+      "name": "행운아",
+      "desc": "운명의 백면체(d100) 판정 목표치 +10. 도박판이 당신을 부른다.",
+      "cost": 4,
+      "modifiers": [{ "type": "check", "dice": "d100", "value": 10 }]
+    },
+    {
+      "id": "silver_tongue",
+      "name": "달변가",
+      "desc": "쌍둥이 뼈주사위(2d6) 매력 판정 +1, 매력 +1.",
+      "cost": 3,
+      "modifiers": [
+        { "type": "check", "dice": "d6x2", "stat": "cha", "value": 1 },
+        { "type": "stat", "stat": "cha", "value": 1 }
+      ]
+    },
+    {
+      "id": "iron_body",
+      "name": "강철 체질",
+      "desc": "건강 +2, 질병(disease) 판정 +2. 열병과 역병이 비켜 간다.",
+      "cost": 2,
+      "exclusive": ["sickly"],
+      "modifiers": [
+        { "type": "health", "value": 2 },
+        { "type": "check", "tag": "disease", "value": 2 }
+      ]
+    },
+    {
+      "id": "sickly",
+      "name": "병약함",
+      "desc": "건강 −2, 질병(disease) 판정 −2, 생활비 +20%(약값). 병치레 사건이 잦다.",
+      "cost": -3,
+      "exclusive": ["iron_body"],
+      "modifiers": [
+        { "type": "health", "value": -2 },
+        { "type": "check", "tag": "disease", "value": -2 },
+        { "type": "livingCost", "value": 20 }
+      ]
+    },
+    {
+      "id": "spendthrift",
+      "name": "낭비벽",
+      "desc": "생활비 +40%. 사치와 도박의 유혹이 자주 찾아온다.",
+      "cost": -2,
+      "modifiers": [{ "type": "livingCost", "value": 40 }]
+    },
+    {
+      "id": "coward",
+      "name": "겁쟁이",
+      "desc": "위험(danger) 판정 −2. 대신 도망칠 길이 보인다.",
+      "cost": -2,
+      "exclusive": ["fearless"],
+      "modifiers": [{ "type": "check", "tag": "danger", "value": -2 }]
+    },
+    {
+      "id": "ambitious",
+      "name": "야망가",
+      "desc": "인간 전용. 진로(career) 판정 +2. 왕도의 관직이 눈에 들어온다.",
+      "cost": 2,
+      "race": "human",
+      "modifiers": [{ "type": "check", "tag": "career", "value": 2 }]
+    },
+    {
+      "id": "starborn",
+      "name": "별빛 혈통",
+      "desc": "엘프 전용. 마력 +2. 별과 엘프 왕궁이 당신을 알아본다.",
+      "cost": 3,
+      "race": "elf",
+      "modifiers": [{ "type": "stat", "stat": "mag", "value": 2 }]
+    },
+    {
+      "id": "forgehand",
+      "name": "대장장이 손",
+      "desc": "드워프 전용. 재주 +1, 제작(craft) 판정 +2, 모든 수입 +10%.",
+      "cost": 3,
+      "race": "dwarf",
+      "modifiers": [
+        { "type": "stat", "stat": "dex", "value": 1 },
+        { "type": "check", "tag": "craft", "value": 2 },
+        { "type": "income", "value": 10 }
+      ]
+    }
+  ]
+}

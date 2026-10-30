@@ -1,0 +1,20 @@
+{
+  "type": "achievements",
+  "comment": "condition이 있는 업적은 생이 끝날 때 판정한다. points는 다음 판 특성 포인트로 영구 이월된다(전체 상한은 config.maxBonusPoints).",
+  "items": [
+    { "id": "a_first_life", "name": "첫 생", "desc": "한 생을 끝까지 살아냈다.", "points": 1, "condition": { "any": [{ "flag": "end_death" }, { "flag": "end_time" }, { "flag": "end_age" }] } },
+    { "id": "a_gold_1000", "name": "천 금화", "desc": "1,000G 이상을 남기고 생을 마쳤다.", "points": 1, "condition": { "cmp": ["gold", ">=", 1000] } },
+    { "id": "a_gold_5000", "name": "황금의 생", "desc": "5,000G 이상을 남기고 생을 마쳤다.", "points": 2, "condition": { "cmp": ["gold", ">=", 5000] } },
+    { "id": "a_long_life", "name": "천수", "desc": "85세까지 살았다.", "points": 1, "condition": { "flag": "end_age" } },
+    { "id": "a_short_life", "name": "짧고 굵게", "desc": "40세가 되기 전에 생을 마쳤다. 실패도 이야기다.", "points": 1, "condition": { "all": [{ "flag": "end_death" }, { "cmp": ["age", "<", 40] }] } },
+    { "id": "a_bankrupt", "name": "빈털터리", "desc": "빚을 진 채 생을 마쳤다.", "points": 1, "condition": { "cmp": ["gold", "<", 0] } },
+    { "id": "a_crit_fail_3", "name": "불운 수집가", "desc": "한 생에서 대실패를 3번 이상 겪었다.", "points": 1, "condition": { "cmp": ["critFails", ">=", 3] } },
+    { "id": "a_crit_success_3", "name": "운명의 총아", "desc": "한 생에서 대성공을 3번 이상 거뒀다.", "points": 1, "condition": { "cmp": ["critSuccesses", ">=", 3] } },
+    { "id": "a_rank_max", "name": "정점", "desc": "진로 최고 등급에 올랐다.", "points": 2, "condition": { "cmp": ["rank", ">=", 5] } },
+    { "id": "a_scenes_8", "name": "이야기꾼", "desc": "한 생에서 장면 8개를 해금했다.", "points": 1, "condition": { "cmp": ["sceneCount", ">=", 8] } },
+    { "id": "a_merchant", "name": "상회의 주인", "desc": "상인으로 상회 대표 이상에 올랐다.", "points": 1, "condition": { "all": [{ "career": "merchant" }, { "cmp": ["rank", ">=", 3] }] } },
+    { "id": "a_adventurer", "name": "금 등급 모험가", "desc": "모험가로 금 등급 이상에 올랐다.", "points": 1, "condition": { "all": [{ "career": "adventurer" }, { "cmp": ["rank", ">=", 3] }] } },
+    { "id": "a_mage", "name": "마탑 교수", "desc": "마도사로 마탑 교수 이상에 올랐다.", "points": 1, "condition": { "all": [{ "career": "mage" }, { "cmp": ["rank", ">=", 3] }] } },
+    { "id": "a_dragon", "name": "용의 보물", "desc": "용의 보물산에서 금화를 들고 살아 돌아왔다.", "points": 2 }
+  ]
+}

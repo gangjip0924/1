@@ -1,0 +1,54 @@
+{
+  "type": "dice",
+  "items": [
+    {
+      "id": "d20",
+      "name": "운명의 이십면체",
+      "desc": "위험과 몸의 판정. d20 + 능력치가 난이도 이상이면 성공. 20은 대성공, 1은 대실패.",
+      "icon": "⬢",
+      "count": 1,
+      "sides": 20,
+      "mode": "over",
+      "statMultiplier": 1,
+      "tiers": [
+        { "tier": "crit_success", "natural": "max" },
+        { "tier": "crit_fail", "natural": "min" },
+        { "tier": "success", "marginGte": 0 },
+        { "tier": "fail" }
+      ]
+    },
+    {
+      "id": "d6x2",
+      "name": "쌍둥이 뼈주사위",
+      "desc": "말과 흥정의 판정. 2d6 + 능력치가 난이도 이상이면 성공, 3 이내로 모자라면 부분 성공. 6·6은 대성공, 1·1은 대실패.",
+      "icon": "⚅",
+      "count": 2,
+      "sides": 6,
+      "mode": "over",
+      "statMultiplier": 1,
+      "tiers": [
+        { "tier": "crit_success", "natural": "max" },
+        { "tier": "crit_fail", "natural": "min" },
+        { "tier": "success", "marginGte": 0 },
+        { "tier": "partial", "marginGte": -3 },
+        { "tier": "fail" }
+      ]
+    },
+    {
+      "id": "d100",
+      "name": "운명의 백면체",
+      "desc": "운과 도박의 판정. 목표치 = 기준치 + 능력치×5. d100이 목표치 이하면 성공. 5 이하 성공은 대성공, 96 이상은 대실패.",
+      "icon": "◎",
+      "count": 1,
+      "sides": 100,
+      "mode": "under",
+      "statMultiplier": 5,
+      "tiers": [
+        { "tier": "crit_success", "rollLte": 5, "marginGte": 0 },
+        { "tier": "crit_fail", "rollGte": 96 },
+        { "tier": "success", "marginGte": 0 },
+        { "tier": "fail" }
+      ]
+    }
+  ]
+}

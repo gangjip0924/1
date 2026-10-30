@@ -1,0 +1,17 @@
+{
+  "type": "config",
+  "items": [
+    {
+      "id": "core_config",
+      "baseTraitPoints": 6,
+      "maxBonusPoints": 10,
+      "maxRerolls": 3,
+      "rerollCost": 1,
+      "oddJobIncome": 14,
+      "maxAge": 85,
+      "startHealth": 6,
+      "startStat": 2,
+      "mortalityPerYear": 0.006
+    }
+  ]
+}

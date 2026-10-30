@@ -1,0 +1,228 @@
+{
+  "type": "events",
+  "comment": "상인 진로 사건.",
+  "items": [
+    {
+      "id": "m_first_shop", "title": "첫 가게", "ages": [20, 26], "priority": 20, "conditions": { "career": "merchant" },
+      "text": "모아 둔 돈으로 장사를 시작할 때다. 시장 골목의 빈 노점, 혹은 빚을 내야 하는 부두의 낡은 창고.",
+      "choices": [
+        { "text": "노점부터 시작한다", "hint": "안전하다", "outcome": { "text": "작지만 내 가게. 첫날 매상은 동전 몇 닢이었지만 손님 얼굴을 하나씩 외웠다.", "effects": [{ "rank": 1 }, { "scene": "s_first_shop" }] } },
+        {
+          "text": "빚을 내 창고를 빌린다", "hint": "위험하다",
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 10, "tags": ["trade"] },
+          "outcomes": {
+            "crit_success": { "text": "창고 가득 들여놓은 물건이 대목에 동났다. 빚을 갚고도 큰돈이 남았다.", "effects": [{ "gold": 220 }, { "rank": 1 }, { "scene": "s_first_shop" }] },
+            "success": { "text": "창고에 물건을 채워 대목을 노렸고, 적중했다.", "effects": [{ "gold": 120 }, { "rank": 1 }, { "scene": "s_first_shop" }] },
+            "partial": { "text": "물건은 팔렸지만 이자가 매상을 갉아먹었다.", "effects": [{ "gold": 30 }, { "rank": 1 }, { "scene": "s_first_shop" }] },
+            "fail": { "text": "물건이 팔리지 않았다. 빚만 남았다.", "effects": [{ "gold": -80 }, { "flag": "debt", "add": 1 }, { "scene": "s_first_shop" }] }
+          }
+        },
+        {
+          "text": "도매상과 담판을 짓는다", "conditions": { "trait": "haggler" },
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 8, "tags": ["trade"] },
+          "outcomes": {
+            "success": { "text": "도매가의 절반에 물건을 떼 왔다. 장사꾼 기질이 빛났다.", "effects": [{ "gold": 150 }, { "rank": 1 }, { "scene": "s_first_shop" }] },
+            "fail": { "text": "도매상도 장사꾼이었다. 평범한 값에 거래했다.", "effects": [{ "rank": 1 }, { "scene": "s_first_shop" }] }
+          }
+        }
+      ]
+    },
+    {
+      "id": "m_spice_fleet", "title": "향신료 선단", "ages": [22, 40], "conditions": { "career": "merchant" },
+      "weightMods": [{ "if": { "birthplace": "port" }, "mul": 1.5 }],
+      "text": [
+        { "text": "남쪽 바다로 향하는 향신료 선단이 투자자를 모은다. 돌아오기만 하면 몇 배, 침몰하면 빈손이다." },
+        { "if": { "birthplace": "port" }, "text": " 벨마르 출신인 당신은 어느 선장이 허풍쟁이인지 안다." }
+      ],
+      "choices": [
+        {
+          "text": "크게 건다", "hint": "성공하면 재산 +80%, 실패하면 −40%",
+          "check": { "dice": "d100", "stat": "int", "dc": 30, "tags": ["gamble", "trade"] },
+          "outcomes": {
+            "crit_success": { "text": "선단이 향신료와 상아를 가득 싣고 돌아왔다. 항구가 당신 이름으로 떠들썩했다.", "effects": [{ "goldPct": 150 }, { "rep": 2 }] },
+            "success": { "text": "선단이 향신료를 가득 싣고 돌아왔다!", "effects": [{ "goldPct": 80 }] },
+            "fail": { "text": "폭풍 소식이 들려왔다. 배 세 척 중 한 척만 돌아왔다.", "effects": [{ "goldPct": -40 }] },
+            "crit_fail": { "text": "선단 전체가 침몰했다. 당신은 부두에 서서 빈 수평선만 바라보았다.", "effects": [{ "goldPct": -40 }, { "gold": -50 }, { "scene": "s_ruin" }] }
+          }
+        },
+        {
+          "text": "조금만 건다",
+          "check": { "dice": "d100", "stat": "int", "dc": 30, "tags": ["gamble", "trade"] },
+          "outcomes": {
+            "success": { "text": "적당히 걸고 적당히 벌었다.", "effects": [{ "gold": 60 }] },
+            "fail": { "text": "적당히 걸고 적당히 잃었다.", "effects": [{ "gold": -20 }] }
+          }
+        },
+        {
+          "text": "선장들을 먼저 만나 본다",
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 10, "tags": ["social"] },
+          "outcomes": {
+            "success": { "text": "믿을 만한 선장을 골라 투자했다. 위험은 줄고 이익은 확실했다.", "effects": [{ "gold": 100 }, { "rep": 1 }] },
+            "partial": { "text": "선장들의 말이 엇갈렸다. 소액만 투자해 조금 벌었다.", "effects": [{ "gold": 25 }] },
+            "fail": { "text": "선장들의 허풍을 듣다 시간을 날렸다. 선단은 이미 떠났다.", "effects": [] }
+          }
+        }
+      ]
+    },
+    {
+      "id": "m_guild", "title": "상인 길드 가입", "ages": [22, 34], "conditions": { "all": [{ "career": "merchant" }, { "not": { "flag": "guild_member" } }] },
+      "text": "상인 길드에 들어가면 큰 거래에 낄 수 있다. 가입비는 비싸고, 원로들의 면접은 까다롭다.",
+      "choices": [
+        {
+          "text": "면접에서 말솜씨를 뽐낸다",
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 10, "tags": ["social", "career"] },
+          "outcomes": {
+            "success": { "text": "원로들이 고개를 끄덕였다. 길드 인장이 당신 손에 들어왔다.", "effects": [{ "gold": -30 }, { "rank": 1 }, { "rep": 1 }, { "flag": "guild_member", "set": true }] },
+            "partial": { "text": "가입은 됐지만 말단 중의 말단이다.", "effects": [{ "gold": -30 }, { "flag": "guild_member", "set": true }] },
+            "fail": { "text": "원로 하나가 당신의 출신을 비웃었다. 문전박대.", "effects": [{ "rep": -1 }] }
+          }
+        },
+        {
+          "text": "가입비를 두 배로 낸다 (100G)", "showLocked": true, "hint": "금화 100G 이상 필요",
+          "conditions": { "cmp": ["gold", ">=", 100] },
+          "outcome": { "text": "돈은 모든 문을 연다.", "effects": [{ "gold": -100 }, { "rank": 1 }, { "flag": "guild_member", "set": true }] }
+        },
+        {
+          "text": "가문의 이름을 댄다", "conditions": { "status": "noble" },
+          "outcome": { "text": "원로들의 태도가 순식간에 바뀌었다.", "effects": [{ "rank": 1 }, { "rep": 1 }, { "flag": "guild_member", "set": true }] }
+        }
+      ]
+    },
+    {
+      "id": "m_swindler", "title": "너무 좋은 거래", "ages": [24, 44], "conditions": { "career": "merchant" },
+      "weightMods": [{ "if": { "trait": "haggler" }, "add": 5 }],
+      "text": "낯선 상인이 '왕실 인장이 찍힌' 비단을 반값에 넘기겠다고 한다. 너무 좋은 조건이다.",
+      "choices": [
+        {
+          "text": "물건을 꼼꼼히 살핀다",
+          "check": { "dice": "d20", "stat": "int", "dc": 13, "tags": ["trade"] },
+          "outcomes": {
+            "success": { "text": "인장이 위조였다. 사기꾼을 경비대에 넘기고 포상금을 받았다.", "effects": [{ "gold": 50 }, { "rep": 1 }] },
+            "fail": { "text": "속았다. 비단은 물들인 삼베였다.", "effects": [{ "gold": -80 }] },
+            "crit_fail": { "text": "속았을 뿐 아니라 장물 거래 혐의까지 받았다.", "effects": [{ "gold": -150 }, { "rep": -2 }] }
+          }
+        },
+        {
+          "text": "흥정으로 떠본다",
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 10, "tags": ["trade"] },
+          "outcomes": {
+            "success": { "text": "값을 깎자 상인의 눈이 흔들렸다. 수상하다. 당신은 거래를 접었다.", "effects": [{ "stat": "int", "add": 1 }] },
+            "partial": { "text": "반의반 값에 샀다. 진품은 아니었지만 손해도 아니었다.", "effects": [{ "gold": 10 }] },
+            "fail": { "text": "흥정 끝에 오히려 웃돈을 얹어 샀다. 가짜였다.", "effects": [{ "gold": -60 }] }
+          }
+        },
+        {
+          "text": "뒷골목에서 본 그 눈빛이다", "conditions": { "flag": "knows_loaded_dice" },
+          "outcome": { "text": "어릴 적 뒷골목 주사위판에서 본 그 눈빛이었다. 당신은 웃으며 사기꾼의 소매를 붙잡았다.", "effects": [{ "gold": 40 }, { "rep": 1 }] }
+        },
+        { "text": "거절한다", "outcome": { "text": "좋은 거래는 이렇게 오지 않는다.", "effects": [] } }
+      ]
+    },
+    {
+      "id": "m_royal_supply", "title": "왕실 납품", "ages": [28, 50], "conditions": { "all": [{ "career": "merchant" }, { "cmp": ["rank", ">=", 2] }] },
+      "weightMods": [{ "if": { "status": "noble" }, "mul": 1.5 }],
+      "text": [
+        { "text": "왕실 주방이 새 납품업자를 찾는다. 성공하면 상회의 격이 달라진다." },
+        { "if": { "status": "noble" }, "text": " 귀족 출신이라는 점이 문을 반쯤 열어 준다." }
+      ],
+      "choices": [
+        {
+          "text": "최상품으로 승부한다",
+          "check": { "dice": "d20", "stat": "int", "dc": 14, "tags": ["career", "trade"] },
+          "outcomes": {
+            "crit_success": { "text": "시식회에서 왕비가 두 번 손을 뻗었다. 왕실 인장이 상회 간판에 걸렸다.", "effects": [{ "gold": 500 }, { "rank": 1 }, { "rep": 3 }, { "scene": "s_royal_court" }] },
+            "success": { "text": "시식회에서 왕비가 미소 지었다. 납품권을 따냈다.", "effects": [{ "gold": 250 }, { "rank": 1 }, { "rep": 2 }, { "scene": "s_royal_court" }] },
+            "fail": { "text": "왕실 요리장이 접시를 밀어냈다. 준비에 쓴 돈만 날렸다.", "effects": [{ "gold": -100 }] },
+            "crit_fail": { "text": "식중독 소동이 났다. 상회 이름에 먹칠을 했다.", "effects": [{ "gold": -200 }, { "rep": -3 }] }
+          }
+        },
+        {
+          "text": "요리장에게 뇌물을 쓴다",
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 10, "tags": ["social"] },
+          "outcomes": {
+            "success": { "text": "요리장이 당신 물건만 칭찬했다. 납품권 획득.", "effects": [{ "gold": 150 }, { "rank": 1 }, { "flag": "bribery", "set": true }, { "scene": "s_royal_court" }] },
+            "partial": { "text": "납품권은 얻었지만 요리장이 해마다 몫을 요구한다.", "effects": [{ "gold": 60 }, { "rank": 1 }, { "flag": "bribery", "set": true }] },
+            "fail": { "text": "뇌물이 들통났다. 벌금과 함께 쫓겨났다.", "effects": [{ "gold": -150 }, { "rep": -2 }] }
+          }
+        }
+      ]
+    },
+    {
+      "id": "m_pirates", "title": "해적의 깃발", "ages": [25, 50], "conditions": { "career": "merchant" },
+      "weightMods": [{ "if": { "birthplace": "port" }, "mul": 2 }],
+      "text": "당신의 화물을 실은 배가 해적에게 붙잡혔다. 해적 선장이 몸값을 요구하는 편지를 보내왔다.",
+      "choices": [
+        {
+          "text": "용병을 사서 되찾는다",
+          "check": { "dice": "d20", "stat": "str", "dc": 14, "tags": ["danger"] },
+          "outcomes": {
+            "success": { "text": "새벽의 기습. 화물도, 해적의 보물 상자도 챙겼다.", "effects": [{ "gold": 150 }, { "rep": 1 }, { "scene": "s_pirate_raid" }] },
+            "fail": { "text": "기습은 실패했다. 화물은 바다에 버려졌다.", "effects": [{ "gold": -120 }, { "health": -1 }, { "scene": "s_pirate_raid" }] },
+            "crit_fail": { "text": "당신마저 포로가 되었다. 몸값은 두 배가 되었다.", "effects": [{ "gold": -250 }, { "health": -1 }, { "scene": "s_pirate_raid" }] }
+          }
+        },
+        {
+          "text": "몸값을 깎는다",
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 10, "tags": ["trade"] },
+          "outcomes": {
+            "success": { "text": "해적 선장과 럼주를 나누며 반값에 합의했다. 선장은 당신이 마음에 든 눈치다.", "effects": [{ "gold": -40 }, { "flag": "pirate_friend", "set": true }, { "scene": "s_pirate_raid" }] },
+            "partial": { "text": "조금 깎았다. 그래도 아프다.", "effects": [{ "gold": -80 }, { "scene": "s_pirate_raid" }] },
+            "fail": { "text": "선장이 화를 내며 값을 올렸다.", "effects": [{ "gold": -150 }] }
+          }
+        },
+        { "text": "화물을 포기한다", "outcome": { "text": "배와 화물을 잃었다. 하지만 목숨값은 아니었다.", "effects": [{ "gold": -100 }] } }
+      ]
+    },
+    {
+      "id": "m_expansion", "title": "상회 확장", "ages": [34, 55], "conditions": { "all": [{ "career": "merchant" }, { "cmp": ["rank", ">=", 3] }] },
+      "text": "상회를 세 도시로 넓힐 기회. 은행가가 거액의 대출을 제안한다. 성공하면 전설, 실패하면 파산이다.",
+      "choices": [
+        {
+          "text": "전부 건다", "hint": "성공하면 재산 +120%, 실패하면 −60%",
+          "check": { "dice": "d100", "stat": "int", "dc": 35, "tags": ["gamble", "trade"] },
+          "outcomes": {
+            "crit_success": { "text": "세 도시에 깃발이 올랐다. 사람들은 당신을 상업 귀족이라 불렀다.", "effects": [{ "goldPct": 200 }, { "rank": 2 }, { "rep": 3 }] },
+            "success": { "text": "확장은 성공했다. 상회의 금고가 두 배로 무거워졌다.", "effects": [{ "goldPct": 120 }, { "rank": 1 }] },
+            "fail": { "text": "확장은 실패했다. 창고마다 팔리지 않은 물건이 쌓였다.", "effects": [{ "goldPct": -60 }, { "scene": "s_ruin" }] },
+            "crit_fail": { "text": "은행가가 빚을 받으러 왔다. 간판이 내려졌다.", "effects": [{ "goldPct": -100 }, { "gold": -300 }, { "rank": -2 }, { "scene": "s_ruin" }] }
+          }
+        },
+        {
+          "text": "한 도시만 신중하게",
+          "check": { "dice": "d20", "stat": "int", "dc": 13, "tags": ["career", "trade"] },
+          "outcomes": {
+            "success": { "text": "옆 도시에 지점을 냈다. 착실한 성장이다.", "effects": [{ "gold": 200 }, { "rank": 1 }] },
+            "fail": { "text": "지점은 적자를 냈다. 일 년 만에 문을 닫았다.", "effects": [{ "gold": -80 }] }
+          }
+        },
+        { "text": "지금에 만족한다", "outcome": { "text": "상회는 지금 크기로도 충분하다. 밤잠이 편하다.", "effects": [{ "health": 1 }] } }
+      ]
+    },
+    {
+      "id": "m_rival_firm", "title": "카렌 상회", "ages": [28, 55], "conditions": { "all": [{ "career": "merchant" }, { "flag": "rival" }] },
+      "text": [
+        { "text": "새로 문을 연 경쟁 상회의 주인 이름을 듣고 당신은 굳었다. 카렌. 골목에서 통행료를 걷던 그 아이다." },
+        { "if": { "flag": "humiliated" }, "text": " 웅덩이에 빠진 당신을 보고 웃던 얼굴이 떠오른다." }
+      ],
+      "choices": [
+        {
+          "text": "가격 전쟁을 벌인다",
+          "check": { "dice": "d20", "stat": "int", "dc": 13, "tags": ["trade"] },
+          "outcomes": {
+            "success": { "text": "석 달 만에 카렌 상회가 문을 닫았다. 카렌은 당신 가게에 와서 일자리를 청했다.", "effects": [{ "gold": 150 }, { "rank": 1 }, { "flag": "rival", "clear": true }, { "flag": "rival_beaten", "set": true }] },
+            "fail": { "text": "카렌이 한 수 위였다. 손님 절반을 빼앗겼다.", "effects": [{ "gold": -150 }] }
+          }
+        },
+        {
+          "text": "손을 잡자고 제안한다",
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 11, "tags": ["social"] },
+          "outcomes": {
+            "success": { "text": "옛 원수는 최고의 동업자가 되었다.", "effects": [{ "gold": 200 }, { "flag": "rival", "clear": true }, { "flag": "karen_ally", "set": true }] },
+            "partial": { "text": "휴전은 성립했다. 이익도 손해도 없다.", "effects": [{ "flag": "rival", "clear": true }] },
+            "fail": { "text": "카렌은 비웃으며 제안서를 찢었다.", "effects": [{ "rep": -1 }] }
+          }
+        }
+      ]
+    }
+  ]
+}

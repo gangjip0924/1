@@ -1,0 +1,7 @@
+{
+  "type": "blocklist",
+  "comment": "생성 프롬프트에서 거를 실존 인물 이름. 필요한 이름을 직접 추가한다. 표지 단어(celebrity, 연예인 등)는 코드에 내장되어 있다.",
+  "items": [
+    { "id": "core_blocklist", "names": [] }
+  ]
+}

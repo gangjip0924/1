@@ -1,0 +1,131 @@
+{
+  "type": "events",
+  "comment": "55세 이후 노년 사건.",
+  "items": [
+    {
+      "id": "o_heir", "title": "후계자", "ages": [55, 72],
+      "text": [
+        { "text": "당신이 일군 것을 누구에게 물려줄 것인가. 재산을 노리는 친척들이 모여든다." },
+        { "if": { "flag": "disciple" }, "text": " 제자가 조용히 기다린다." }
+      ],
+      "choices": [
+        {
+          "text": "능력 있는 자에게 물려준다",
+          "check": { "dice": "d20", "stat": "int", "dc": 12 },
+          "outcomes": {
+            "success": { "text": "현명한 선택이었다. 가업은 더 번창했고, 당신 몫의 배당이 들어온다.", "effects": [{ "gold": 200 }, { "rep": 1 }] },
+            "fail": { "text": "선택은 틀렸다. 후계자가 재산을 축내기 시작했다.", "effects": [{ "goldPct": -20 }] }
+          }
+        },
+        { "text": "죽을 때까지 움켜쥔다", "outcome": { "text": "아무도 믿지 않는다. 금고 열쇠는 목에 건 채로.", "effects": [{ "rep": -1 }, { "flag": "miser", "set": true }] } },
+        { "text": "재산 절반을 기부한다", "hint": "점수는 줄지만 평판은 오른다", "outcome": { "text": "사람들이 당신의 이름을 딴 다리를 놓았다.", "effects": [{ "goldPct": -50 }, { "rep": 5 }] } }
+      ]
+    },
+    {
+      "id": "o_memoir", "title": "회고록", "ages": [58, 82],
+      "text": [
+        { "text": "출판업자가 회고록을 쓰자고 한다. {name}의 생애는 이야기할 거리가 많다." },
+        { "if": { "cmp": ["critFails", ">=", 2] }, "text": " 실패담만으로도 한 권은 나올 것 같다." }
+      ],
+      "choices": [
+        {
+          "text": "솔직하게 쓴다",
+          "check": { "dice": "d6x2", "stat": "int", "dc": 10, "tags": ["study"] },
+          "outcomes": {
+            "success": { "text": "회고록은 왕국의 베스트셀러가 되었다.", "effects": [{ "gold": 200 }, { "scene": "s_memoir" }] },
+            "partial": { "text": "꾸준히 팔렸다.", "effects": [{ "gold": 80 }, { "scene": "s_memoir" }] },
+            "fail": { "text": "아무도 사지 않았다. 그래도 쓰는 동안 행복했다.", "effects": [{ "health": 1 }, { "scene": "s_memoir" }] }
+          }
+        },
+        {
+          "text": "과장해서 쓴다",
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 10, "tags": ["social"] },
+          "outcomes": {
+            "success": { "text": "용을 세 마리쯤 더 잡은 이야기는 불티나게 팔렸다.", "effects": [{ "gold": 300 }, { "rep": -1 }, { "scene": "s_memoir" }] },
+            "partial": { "text": "팔리긴 했지만 비웃음도 샀다.", "effects": [{ "gold": 100 }, { "rep": -1 }, { "scene": "s_memoir" }] },
+            "fail": { "text": "옛 동료들이 거짓말을 폭로했다.", "effects": [{ "rep": -2 }, { "scene": "s_memoir" }] }
+          }
+        }
+      ]
+    },
+    {
+      "id": "o_last_journey", "title": "마지막 여행", "ages": [55, 72],
+      "text": "늙은 몸에 바람이 분다. 젊은 날 가 보지 못한 곳이 있다.",
+      "choices": [
+        {
+          "text": "떠난다",
+          "check": { "dice": "d20", "stat": "str", "dc": 13, "tags": ["danger"] },
+          "outcomes": {
+            "success": { "text": "먼 바다 끝 섬에서 잊힌 보물을 찾았다.", "effects": [{ "gold": 300 }] },
+            "fail": { "text": "돌아오는 길은 길고 험했다.", "effects": [{ "health": -2 }] }
+          }
+        },
+        { "text": "집에 남는다", "outcome": { "text": "창가의 의자가 가장 좋은 여행지다.", "effects": [{ "health": 1 }] } }
+      ]
+    },
+    {
+      "id": "o_sickbed", "title": "병상", "ages": [62, 90], "weight": 8,
+      "weightMods": [{ "if": { "cmp": ["health", "<=", 3] }, "mul": 2 }],
+      "text": "기침이 멈추지 않는다. 의원은 고개를 젓는다.",
+      "choices": [
+        {
+          "text": "최고의 치유사를 부른다 (200G)", "showLocked": true, "hint": "금화 200G 이상 필요",
+          "conditions": { "cmp": ["gold", ">=", 200] },
+          "outcome": { "text": "치유사의 손길로 몇 해를 더 얻었다.", "effects": [{ "gold": -200 }, { "health": 2 }] }
+        },
+        {
+          "text": "버틴다",
+          "check": { "dice": "d20", "stat": "str", "dc": 13, "tags": ["disease"] },
+          "outcomes": {
+            "success": { "text": "아직은 아니다.", "effects": [{ "health": 1 }] },
+            "fail": { "text": "몸이 하루하루 가벼워진다.", "effects": [{ "health": -3 }, { "scene": "s_deathbed" }] }
+          }
+        },
+        { "text": "삶을 정리한다", "outcome": { "text": "사랑하는 이들을 불러 모아 긴 이야기를 들려주었다.", "effects": [{ "health": -1 }, { "rep": 1 }, { "scene": "s_deathbed" }] } }
+      ]
+    },
+    {
+      "id": "o_legacy_invest", "title": "마지막 투자", "ages": [55, 74],
+      "text": "평생 모은 돈을 굴릴 마지막 기회. 젊은 상인이 신대륙 개척 사업을 제안한다.",
+      "choices": [
+        {
+          "text": "크게 건다", "hint": "성공하면 재산 +60%, 실패하면 −30%",
+          "check": { "dice": "d100", "stat": "int", "dc": 35, "tags": ["gamble"] },
+          "outcomes": {
+            "crit_success": { "text": "신대륙에 당신 이름을 딴 항구가 생겼다.", "effects": [{ "goldPct": 120 }] },
+            "success": { "text": "개척지에서 금이 나왔다.", "effects": [{ "goldPct": 60 }] },
+            "fail": { "text": "배는 돌아오지 않았다.", "effects": [{ "goldPct": -30 }] },
+            "crit_fail": { "text": "사기였다. 젊은 상인은 사라졌다.", "effects": [{ "goldPct": -60 }, { "scene": "s_ruin" }] }
+          }
+        },
+        { "text": "금고에 넣어 둔다", "outcome": { "text": "안전이 최고다.", "effects": [] } }
+      ]
+    },
+    {
+      "id": "o_festival", "title": "다시, 등불 축제", "ages": [60, 85],
+      "text": [
+        { "text": "다시 여름 축제. 강물에 등불이 흐른다. 아이들이 당신에게 옛날이야기를 조른다." },
+        { "if": { "flag": "lantern_wish" }, "text": " 젊은 날 띄웠던 등불의 소원이 떠오른다." }
+      ],
+      "choices": [
+        {
+          "text": "옛날이야기를 들려준다",
+          "check": { "dice": "d6x2", "stat": "cha", "dc": 9, "tags": ["social"] },
+          "outcomes": {
+            "success": { "text": "아이들이 눈을 반짝였다. 당신의 이야기는 마을의 전설이 될 것이다.", "effects": [{ "rep": 2 }, { "health": 1 }] },
+            "partial": { "text": "몇 아이는 졸았지만 몇 아이는 끝까지 들었다.", "effects": [{ "rep": 1 }] },
+            "fail": { "text": "이야기 도중 꾸벅 졸았다. 아이들이 깔깔 웃었다.", "effects": [] }
+          }
+        },
+        {
+          "text": "젊은이들 틈에서 춤춘다",
+          "check": { "dice": "d20", "stat": "str", "dc": 12 },
+          "outcomes": {
+            "success": { "text": "아직 죽지 않았다!", "effects": [{ "health": 1 }] },
+            "fail": { "text": "허리가 삐끗했다.", "effects": [{ "health": -1 }] }
+          }
+        }
+      ]
+    }
+  ]
+}

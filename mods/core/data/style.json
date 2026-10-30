@@ -1,0 +1,48 @@
+{
+  "type": "style",
+  "comment": "스타일 락. 모든 장면 생성 요청의 앞머리와 해상도를 고정한다. 전체에서 하나만 정의할 수 있다.",
+  "items": [
+    {
+      "id": "core_style",
+      "version": "storybook-1",
+      "prefix": "illuminated storybook illustration, hand-painted watercolor and ink, warm sepia parchment texture, thin gilded border, fantasy medieval world, soft painterly lighting",
+      "negative": "lowres, blurry, deformed hands, extra fingers, extra limbs, modern clothing, 3d render, anime screenshot",
+      "portrait": "head and shoulders portrait, calm expression, plain parchment background, reference sheet",
+      "width": 768,
+      "height": 576,
+      "steps": 24,
+      "cfg": 6.5,
+      "sampler": "Euler a",
+      "appearance": {
+        "gender": [
+          { "id": "female", "label": "여성", "prompt": "female" },
+          { "id": "male", "label": "남성", "prompt": "male" },
+          { "id": "neutral", "label": "정하지 않음", "prompt": "androgynous" }
+        ],
+        "hair": [
+          { "id": "brown", "label": "갈색 머리", "prompt": "brown hair" },
+          { "id": "black", "label": "검은 머리", "prompt": "black hair" },
+          { "id": "blonde", "label": "금발", "prompt": "blonde hair" },
+          { "id": "red", "label": "붉은 머리", "prompt": "red hair" },
+          { "id": "silver", "label": "은발", "prompt": "silver hair" },
+          { "id": "white", "label": "흰 머리", "prompt": "white hair" }
+        ],
+        "eyes": [
+          { "id": "brown", "label": "갈색 눈", "prompt": "brown eyes" },
+          { "id": "blue", "label": "푸른 눈", "prompt": "blue eyes" },
+          { "id": "green", "label": "녹색 눈", "prompt": "green eyes" },
+          { "id": "grey", "label": "회색 눈", "prompt": "grey eyes" },
+          { "id": "amber", "label": "호박색 눈", "prompt": "amber eyes" },
+          { "id": "violet", "label": "보라색 눈", "prompt": "violet eyes" }
+        ],
+        "skin": [
+          { "id": "fair", "label": "흰 피부", "prompt": "fair skin" },
+          { "id": "light", "label": "밝은 피부", "prompt": "light skin" },
+          { "id": "tan", "label": "그을린 피부", "prompt": "tan skin" },
+          { "id": "brown", "label": "갈색 피부", "prompt": "brown skin" },
+          { "id": "dark", "label": "짙은 피부", "prompt": "dark skin" }
+        ]
+      }
+    }
+  ]
+}
