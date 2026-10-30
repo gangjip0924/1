@@ -4,7 +4,6 @@
 
 $ErrorActionPreference = "Stop"
 $Target = "D:\TRPG"
-$Raw = "https://raw.githubusercontent.com/gangjip0924/1/claude/gracious-fermat-0k29gm"
 
 # Use throw rather than exit: under "irm | iex" exit would close the window.
 function Need($cmd, $hint) {
@@ -39,11 +38,6 @@ if (Test-Path "$Target\project.yaml") {
     Run git clone https://github.com/Donchitos/Claude-Code-Game-Studios.git $Target
 }
 Set-Location $Target
-
-# Draft TRPG game brief; /brainstorm refines it instead of starting over.
-if (-not (Test-Path "design\game-brief.md")) {
-    Invoke-WebRequest "$Raw/trpg/design/game-brief.md" -OutFile "design\game-brief.md" -UseBasicParsing
-}
 
 # 2. OmniRoute (AI gateway, http://localhost:20128)
 # npm.cmd, not npm: the default execution policy blocks npm.ps1.
